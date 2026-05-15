@@ -1,40 +1,18 @@
-# Memory OS Pro
+# Memory OS Human
 
-وب‌اپلیکیشن حفظ شماره موبایل بر پایه:
-- Pattern Recognition
-- Chunking
-- Persian Major System
-- Memory Palace
-- Spaced Repetition
+نسخه انسانی‌تر اپ حفظ شماره موبایل.
 
-## اجرا
+## تفاوت نسخه v3
+- جریان تمرین روزانه دارد، نه صفحه‌های پراکنده
+- هر بار فقط یک کار اصلی به کاربر نشان می‌دهد
+- شماره‌ها همیشه LTR هستند
+- ضعف‌ها مثل Middle Drop و Prefix Confusion ردیابی می‌شوند
+- مرور فاصله‌دار شبیه Anki ولی ساده‌تر اجرا می‌شود
+- مناسب GitHub Pages
 
-فقط فایل‌ها را داخل GitHub Repository آپلود کن.
-
-سپس:
-Settings → Pages → Deploy from branch
-
-Branch:
-main
-
-Folder:
-root
-
-بعد از چند دقیقه:
-GitHub Pages فعال می‌شود.
-
-## فایل‌ها
-
-- index.html
-- manifest.json
-- service-worker.js
-
-## قابلیت‌ها
-
-- RTL + LTR صحیح
-- سیستم تست حافظه
-- مرور فاصله‌دار
-- سیستم قصر حافظه
-- مدیریت شماره‌ها
-- localStorage
-- کارت‌های حافظه
+## اجرا روی GitHub Pages
+1. فایل‌ها را در ریشه ریپازیتوری بگذارید.
+2. Repository را Public کنید.
+3. Settings → Pages
+4. Source: Deploy from branch
+5. Branch: main / root
