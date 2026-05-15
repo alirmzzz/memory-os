@@ -29,7 +29,7 @@ textarea{min-height:88px;line-height:1.8;resize:vertical}label{display:block;fon
 .pill{display:inline-flex;align-items:center;border:1px solid var(--line);background:#0b1224;color:var(--muted);border-radius:999px;padding:6px 10px;font-size:12px;margin:3px}
 .progress{height:12px;border:1px solid var(--line);background:#0b1224;border-radius:99px;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--green))}
 .step{border-right:3px solid var(--blue);padding-right:12px;margin:12px 0}.chunk{display:inline-block;direction:ltr;unicode-bidi:isolate;background:#0b1224;border:1px solid var(--line);border-radius:12px;padding:8px 12px;margin:4px;color:#bfdbfe;font-weight:900}
-.ok{color:#86efac}.err{color:#fca5a5}.yellow{color:#fcd34d}.hidden{display:none!important}
+.ok{color:#86efac}.err{color:#fca5a5}.yellow{color:#fcd34d}.hidden{display:none!important}.hintBox{margin-top:10px;border:1px dashed var(--line);background:#0b1224;border-radius:14px;padding:12px;color:var(--muted);line-height:1.9}.tiny{font-size:12px;padding:8px 10px;border-radius:12px;flex:0 0 auto}
 table{width:100%;border-collapse:collapse;font-size:13px}td,th{border-bottom:1px solid var(--line);padding:10px;text-align:right}
 .copyline{background:#0b1224;border:1px dashed var(--line);border-radius:14px;padding:12px;line-height:2}
 </style>
@@ -74,6 +74,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}td,th{border-bottom:1px
       <label>شماره</label><input id="phone" class="ltr" placeholder="0915 858 5607">
       <label>رابطه واقعی با شخص</label><textarea id="context" placeholder="شغل، خاطره، معامله، مکان واقعی..."></textarea>
       <label>قلاب نهایی</label><textarea id="anchor" placeholder="یک جمله کوتاه و واقعی"></textarea>
+      <label>راهنمای کوچک مرور</label><input id="hint" placeholder="مثلاً: پله مسجد / تقسیم بر ۳ / ده‌تا کم">
       <label>ضعف/ریسک این شماره</label><select id="weakness">
         <option>ندارد</option><option>Middle Drop</option><option>Prefix Confusion</option><option>Weak Anchor</option><option>Pattern Collision</option><option>Over-analysis</option>
       </select>
@@ -126,14 +127,14 @@ let state=JSON.parse(localStorage.getItem(KEY)||"null")||seed();
 let session={step:0,queue:[],current:null,mode:null};
 
 function seed(){return {cards:[
-{id:id(),name:"حسنی تیگو",phone:"09155138868",context:"تیگو",anchor:"513، دو چراغ 88، پایان 68",weakness:"Weak Anchor",level:1,next:now(),ok:1,bad:1},
-{id:id(),name:"جواد همتی",phone:"09158585607",context:"همتی چاقه",anchor:"85-85 قوی است؛ 607 باید به تخت/دفتر حساب همتی وصل شود",weakness:"Middle Drop",level:0,next:now(),ok:0,bad:2},
-{id:id(),name:"وحید زوار",phone:"09157598731",context:"زوار / زائر",anchor:"75 زائر، مسیر 987، صحن 31",weakness:"Weak Anchor",level:0,next:now(),ok:0,bad:2},
-{id:id(),name:"علیپور سراتو",phone:"09330325280",context:"سراتو",anchor:"0933 خاص، 032 ورودی، 52 تا 80",weakness:"Pattern Collision",level:0,next:now(),ok:0,bad:1},
-{id:id(),name:"مرتضی موذن",phone:"09338642122",context:"موذن",anchor:"از 8 پله مسجد دوتادوتا پایین: 8-6-4-2، همکف 1، اتاق 22",weakness:"ندارد",level:3,next:now()+ONE_D,ok:3,bad:0},
-{id:id(),name:"مهرداد جواهری",phone:"09156458089",context:"اسباب‌بازی؛ باشگاه",anchor:"ساعت 6:45 مغازه را ترک می‌کند؛ باشگاه رکورد 80 تا 89",weakness:"ندارد",level:2,next:now(),ok:2,bad:0},
-{id:id(),name:"عبدالله نیکوسیرت",phone:"09159314657",context:"طلب 46 میلیون",anchor:"931 یعنی 9÷3=3 و 3÷3=1؛ 46 میلیون؛ پایان 57",weakness:"ندارد",level:2,next:now(),ok:2,bad:0},
-{id:id(),name:"محمدجواد مددی",phone:"09399292186",context:"موبایل‌فروش",anchor:"0939 موبایلی؛ ده‌تا کم 929؛ مددی 21 ساله؛ باتری 86٪",weakness:"Prefix Confusion",level:1,next:now(),ok:1,bad:1}
+{id:id(),name:"حسنی تیگو",phone:"09155138868",context:"تیگو",anchor:"513، دو چراغ 88، پایان 68",hint:"دو چراغ تیگو",weakness:"Weak Anchor",level:1,next:now(),ok:1,bad:1},
+{id:id(),name:"جواد همتی",phone:"09158585607",context:"همتی چاقه",anchor:"85-85 قوی است؛ 607 باید به تخت/دفتر حساب همتی وصل شود",hint:"تکرار 85، پایان جدا",weakness:"Middle Drop",level:0,next:now(),ok:0,bad:2},
+{id:id(),name:"وحید زوار",phone:"09157598731",context:"زوار / زائر",anchor:"75 زائر، مسیر 987، صحن 31",hint:"زائرها و مسیر",weakness:"Weak Anchor",level:0,next:now(),ok:0,bad:2},
+{id:id(),name:"علیپور سراتو",phone:"09330325280",context:"سراتو",anchor:"0933 خاص، 032 ورودی، 52 تا 80",hint:"0933 خاص، ورودی",weakness:"Pattern Collision",level:0,next:now(),ok:0,bad:1},
+{id:id(),name:"مرتضی موذن",phone:"09338642122",context:"موذن",anchor:"از 8 پله مسجد دوتادوتا پایین: 8-6-4-2، همکف 1، اتاق 22",hint:"پله مسجد",weakness:"ندارد",level:3,next:now()+ONE_D,ok:3,bad:0},
+{id:id(),name:"مهرداد جواهری",phone:"09156458089",context:"اسباب‌بازی؛ باشگاه",anchor:"ساعت 6:45 مغازه را ترک می‌کند؛ باشگاه رکورد 80 تا 89",hint:"ساعت ترک مغازه",weakness:"ندارد",level:2,next:now(),ok:2,bad:0},
+{id:id(),name:"عبدالله نیکوسیرت",phone:"09159314657",context:"طلب 46 میلیون",anchor:"931 یعنی 9÷3=3 و 3÷3=1؛ 46 میلیون؛ پایان 57",hint:"تقسیم بر 3",weakness:"ندارد",level:2,next:now(),ok:2,bad:0},
+{id:id(),name:"محمدجواد مددی",phone:"09399292186",context:"موبایل‌فروش",anchor:"0939 موبایلی؛ ده‌تا کم 929؛ مددی 21 ساله؛ باتری 86٪",hint:"خط موبایلی، ده‌تا کم",weakness:"Prefix Confusion",level:1,next:now(),ok:1,bad:1}
 ]}}
 function id(){return crypto.randomUUID()}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));render()}
@@ -160,21 +161,21 @@ function renderCards(){
   <div class="row"><h2>${c.name}</h2><span class="pill">سطح ${c.level}</span></div>
   <div class="num">${fmt(c.phone)}</div>
   <div>${chunks(c.phone).map(x=>`<span class="chunk">${x}</span>`).join("")}</div>
-  <p><b>قلاب:</b> ${c.anchor}</p>
+  <p><b>قلاب:</b> ${c.anchor}</p><p class="muted small"><b>راهنمای مرور:</b> ${c.hint||"—"}</p>
   <p class="muted small">ضعف: ${c.weakness} | درست: ${c.ok||0} | خطا: ${c.bad||0}</p>
   <div class="btns"><button onclick="editCard('${c.id}')">ویرایش</button><button class="bad" onclick="delCard('${c.id}')">حذف</button></div>
  </div>`).join("");
 }
-function resetForm(){["editId","name","phone","context","anchor"].forEach(x=>document.getElementById(x).value="");document.getElementById("weakness").value="ندارد"}
+function resetForm(){["editId","name","phone","context","anchor","hint"].forEach(x=>document.getElementById(x).value="");document.getElementById("weakness").value="ندارد"}
 function saveCard(){
  const edit=document.getElementById("editId").value;
- const obj={id:edit||id(),name:name.value.trim(),phone:digits(phone.value),context:context.value.trim(),anchor:anchor.value.trim(),weakness:weakness.value,level:0,next:now(),ok:0,bad:0};
+ const obj={id:edit||id(),name:name.value.trim(),phone:digits(phone.value),context:context.value.trim(),anchor:anchor.value.trim(),hint:hint.value.trim(),weakness:weakness.value,level:0,next:now(),ok:0,bad:0};
  if(!obj.name||obj.phone.length<8){alert("نام و شماره معتبر لازم است.");return}
  const i=state.cards.findIndex(c=>c.id===obj.id);
  if(i>=0){obj.level=state.cards[i].level;obj.next=state.cards[i].next;obj.ok=state.cards[i].ok;obj.bad=state.cards[i].bad;state.cards[i]=obj}else state.cards.push(obj);
  resetForm();save();
 }
-function editCard(cid){let c=state.cards.find(x=>x.id===cid);if(!c)return;editId.value=c.id;name.value=c.name;phone.value=fmt(c.phone);context.value=c.context;anchor.value=c.anchor;weakness.value=c.weakness;window.scrollTo({top:0,behavior:"smooth"})}
+function editCard(cid){let c=state.cards.find(x=>x.id===cid);if(!c)return;editId.value=c.id;name.value=c.name;phone.value=fmt(c.phone);context.value=c.context;anchor.value=c.anchor;hint.value=c.hint||"";weakness.value=c.weakness;window.scrollTo({top:0,behavior:"smooth"})}
 function delCard(cid){if(confirm("حذف شود؟")){state.cards=state.cards.filter(c=>c.id!==cid);save()}}
 
 function startSession(){
@@ -188,9 +189,10 @@ function nextSession(){
  session.current=session.queue.shift();
  session.mode="recall";
  document.getElementById("sessionStep").textContent="بازخوانی فعال";
- document.getElementById("sessionBox").innerHTML=`<h2>${session.current.name}</h2><p class="muted">اول از حافظه بگو، بعد جواب را ببین.</p><div class="copyline">${session.current.anchor}</div><label>شماره را وارد کن</label><input id="sessAnswer" class="ltr" placeholder="مثلاً 0915 858 5607">`;
+ document.getElementById("sessionBox").innerHTML=`<h2>${session.current.name}</h2><p class="muted">اول از حافظه بگو. راهنما فقط یک اشاره کوچک می‌دهد، نه جواب کامل.</p><button class="ghost tiny" onclick="toggleHint()">💡 راهنما</button><div id="hintBox" class="hintBox hidden">${session.current.hint||"فقط هویت شخص را یادآوری کن؛ هنوز قلاب کامل را نبین."}</div><label>شماره را وارد کن</label><input id="sessAnswer" class="ltr" placeholder="مثلاً 0915 858 5607">`;
  document.getElementById("sessionBtns").innerHTML=`<button class="primary" onclick="revealSession()">نمایش جواب</button>`;
 }
+function toggleHint(){document.getElementById("hintBox").classList.toggle("hidden")}
 function revealSession(){
  const c=session.current, ans=digits(document.getElementById("sessAnswer").value), ok=ans===c.phone;
  document.getElementById("sessionBox").innerHTML+=`<div class="card ${ok?'':'danger-zone'}"><div class="${ok?'ok':'err'}">${ok?'✅ درست':'❌ نیاز به قلاب بهتر'}</div><div class="num">${fmt(c.phone)}</div><p>${c.anchor}</p></div>`;
