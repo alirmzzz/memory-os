@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta name="theme-color" content="#0b1020"/>
+  <title>Memory OS Pro | حفظ شماره موبایل</title>
+  <style>
+    :root{
+      --bg:#0b1020; --card:#141b2f; --card2:#10172a; --txt:#eef2ff; --muted:#9aa7c7;
+      --line:#26314f; --blue:#3b82f6; --green:#22c55e; --red:#ef4444; --yellow:#f59e0b;
+      --purple:#a855f7; --cyan:#06b6d4;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; background:linear-gradient(180deg,#090d1a,#0b1020 35%,#0a0f1e);
+      color:var(--txt); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;
+      padding:14px; padding-bottom:100px;
+    }
+    .app{max-width:980px;margin:auto}
+    header{position:sticky;top:0;z-index:10;background:rgba(11,16,32,.88);backdrop-filter:blur(12px);padding:10px 0 14px}
+    h1{font-size:22px;margin:0 0 6px}
+    .sub{color:var(--muted);font-size:13px}
+    .tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:12px}
+    .tab{border:1px solid var(--line);background:var(--card2);color:var(--txt);border-radius:13px;padding:10px 6px;font-size:12px}
+    .tab.active{background:var(--blue);border-color:var(--blue)}
+    .panel{display:none}.panel.active{display:block}
+    .card{background:linear-gradient(180deg,var(--card),#10172a);border:1px solid var(--line);border-radius:20px;padding:15px;margin:12px 0;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+    .grid{display:grid;grid-template-columns:1fr;gap:10px}
+    @media(min-width:760px){.grid.two{grid-template-columns:1fr 1fr}.grid.three{grid-template-columns:repeat(3,1fr)}}
+    label{display:block;color:var(--muted);font-size:12px;margin:8px 0 6px}
+    input,textarea,select{
+      width:100%;background:#0b1224;color:var(--txt);border:1px solid var(--line);border-radius:13px;padding:12px;font-size:15px;
+      outline:none;
+    }
+    textarea{min-height:78px;resize:vertical;line-height:1.8}
+    input.ltr,.num{direction:ltr;text-align:left;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+    .num{font-size:22px;font-weight:800;color:#86efac;letter-spacing:.5px;unicode-bidi:isolate}
+    .ltr{direction:ltr;text-align:left;unicode-bidi:isolate}
+    .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    button{border:0;border-radius:13px;padding:11px 13px;color:white;background:#334155;font-weight:700}
+    button.primary{background:var(--blue)} button.good{background:var(--green)} button.bad{background:var(--red)}
+    button.warn{background:var(--yellow);color:#111827} button.purple{background:var(--purple)}
+    .pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#0b1224;border-radius:999px;padding:6px 10px;color:var(--muted);font-size:12px;margin:3px}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .muted{color:var(--muted)} .small{font-size:12px}.ok{color:#86efac}.err{color:#fca5a5}.yellow{color:#fcd34d}
+    .chunk{display:inline-block;direction:ltr;unicode-bidi:isolate;background:#0b1224;border:1px solid var(--line);border-radius:11px;padding:7px 10px;margin:3px;color:#bfdbfe;font-weight:800}
+    .major{line-height:2}
+    .progress{height:12px;border-radius:999px;background:#0b1224;border:1px solid var(--line);overflow:hidden}
+    .bar{height:100%;background:linear-gradient(90deg,var(--blue),var(--green));width:0%}
+    .qbox{font-size:18px;line-height:2}
+    .hide{display:none!important}
+    .danger-zone{border-color:#7f1d1d}
+  </style>
+</head>
+<body>
+<div class="app">
+<header>
+  <h1>🧠 Memory OS Pro</h1>
+  <div class="sub">حفظ شماره موبایل با «الگو»، «چانکینگ»، «سیستم ماژور فارسی»، «قصر حافظه» و «مرور فاصله‌دار»</div>
+  <div class="tabs">
+    <button class="tab active" data-tab="dash">داشبورد</button>
+    <button class="tab" data-tab="items">شماره‌ها</button>
+    <button class="tab" data-tab="train">آموزش</button>
+    <button class="tab" data-tab="test">تست</button>
+    <button class="tab" data-tab="loci">قصر</button>
+  </div>
+</header>
+
+<section id="dash" class="panel active">
+  <div class="grid three">
+    <div class="card"><div class="muted">کل شماره‌ها</div><h2 id="statTotal">0</h2></div>
+    <div class="card"><div class="muted">آماده مرور</div><h2 id="statDue">0</h2></div>
+    <div class="card"><div class="muted">بلندمدت</div><h2 id="statLong">0%</h2></div>
+  </div>
+  <div class="card">
+    <div class="row"><b>پیشرفت حافظه بلندمدت</b><span id="progText" class="muted">0%</span></div>
+    <div class="progress"><div id="progBar" class="bar"></div></div>
+  </div>
+  <div class="card">
+    <b>مرورهای امروز</b>
+    <div id="dueList" class="small muted" style="margin-top:10px"></div>
+  </div>
+</section>
+
+<section id="items" class="panel">
+  <div class="card">
+    <h2>➕ افزودن / ویرایش شماره</h2>
+    <input type="hidden" id="editId">
+    <label>نام</label><input id="name" placeholder="مثلاً مرتضی موذن">
+    <label>شماره موبایل</label><input id="phone" class="ltr" placeholder="0933 864 2122">
+    <label>هویت / زمینه شناختی</label><textarea id="context" placeholder="نسبت، شغل، خاطره واقعی، معامله، مکان..."></textarea>
+    <div class="grid two">
+      <div><label>Anchor شخصی</label><textarea id="anchor" placeholder="مثلاً موذن از پله‌های مسجد 8-6-4-2-1 پایین می‌آید و در 22 را باز می‌کند"></textarea></div>
+      <div><label>تصویر ذهنی</label><textarea id="image" placeholder="تصویر عجیب، واقعی، کوتاه و قابل بازیابی"></textarea></div>
+    </div>
+    <label>ایستگاه قصر حافظه</label><select id="station"></select>
+    <div class="btns">
+      <button class="primary" onclick="saveItem()">ذخیره</button>
+      <button onclick="clearForm()">پاک‌کردن فرم</button>
+      <button class="purple" onclick="autoFillMajor()">پیشنهاد ماژور</button>
+    </div>
+  </div>
+  <div id="itemsList"></div>
+</section>
+
+<section id="train" class="panel">
+  <div class="card">
+    <h2>🎓 آموزش گام‌به‌گام</h2>
+    <div id="trainBox"></div>
+    <div class="btns">
+      <button onclick="prevTrain()">قبلی</button>
+      <button class="primary" onclick="nextTrain()">بعدی</button>
+    </div>
+  </div>
+</section>
+
+<section id="test" class="panel">
+  <div class="card">
+    <h2>🎯 بازخوانی فعال</h2>
+    <div class="btns">
+      <button class="primary" onclick="newQuestion('nameToPhone')">نام ← شماره</button>
+      <button class="purple" onclick="newQuestion('phoneToName')">شماره ← نام</button>
+      <button class="warn" onclick="newQuestion('anchorToPhone')">Anchor ← شماره</button>
+    </div>
+    <div id="q" class="qbox" style="margin-top:15px"></div>
+    <input id="testAnswer" class="ltr" placeholder="پاسخ را وارد کن">
+    <div class="btns">
+      <button class="good" onclick="checkTest(true)">یادم بود</button>
+      <button class="bad" onclick="checkTest(false)">یادم نبود</button>
+      <button onclick="showAnswer()">نمایش جواب</button>
+    </div>
+    <div id="testResult"></div>
+  </div>
+</section>
+
+<section id="loci" class="panel">
+  <div class="card">
+    <h2>🏠 قصر حافظه</h2>
+    <p class="muted">هر شماره را در یک ایستگاه ثابت بگذار. بعداً ترتیب ۱۰۰ شماره با مسیر مکانی بازیابی می‌شود.</p>
+    <div id="lociList"></div>
+  </div>
+</section>
+</div>
+
+<script>
+const LS_KEY = "memory_os_pro_v1";
+const now = () => Date.now();
+const intervals = [60*60*1000, 24*60*60*1000, 7*24*60*60*1000, 30*24*60*60*1000];
+
+const stations = [
+"ورودی پاساژ","راهروی اول","جلوی مغازه خودت","طبقه پایین شهمیرزاد","کنار آسانسور",
+"مسجد / پله‌ها","باشگاه","نمایشگاه خودرو","دفتر حساب","میز چک",
+"پارکینگ","صندوق فروش","ویترین موبایل","اتاق 21","اتاق 22","قفسه اسباب‌بازی"
+];
+
+let state = JSON.parse(localStorage.getItem(LS_KEY) || "null") || seed();
+let currentQ = null;
+let trainStep = 0;
+
+function seed(){
+return {
+items:[
+{id:crypto.randomUUID(),name:"حسنی تیگو",phone:"09155138868",context:"خودرو تیگو",anchor:"513 → 88 → 68",image:"تیگو با دو چراغ 88 و پایان 68",station:"نمایشگاه خودرو",level:1,nextReview:now(),success:1,fail:0},
+{id:crypto.randomUUID(),name:"جواد همتی",phone:"09158585607",context:"همتی چاقه",anchor:"85 → 85 → 607",image:"همتی روی ترازو؛ 85 دوبار؛ پایان 607 باید جدا قفل شود",station:"دفتر حساب",level:0,nextReview:now(),success:0,fail:1},
+{id:crypto.randomUUID(),name:"وحید زوار",phone:"09157598731",context:"زوار / زائر",anchor:"75 → 987 → 31",image:"75 زائر، مسیر 987، صحن 31",station:"مسجد / پله‌ها",level:0,nextReview:now(),success:0,fail:1},
+{id:crypto.randomUUID(),name:"علیپور سراتو",phone:"09330325280",context:"سراتو",anchor:"032 → 52 → 80",image:"0933 خاص، بلوک 032، از 52 تا 80",station:"نمایشگاه خودرو",level:0,nextReview:now(),success:0,fail:1},
+{id:crypto.randomUUID(),name:"مرتضی موذن",phone:"09338642122",context:"رفیق مشترک مهرداد",anchor:"864 → 21 → 22",image:"موذن از 8 پله مسجد دوتادوتا پایین می‌آید: 8-6-4-2، همکف 1، در اتاق 22",station:"مسجد / پله‌ها",level:2,nextReview:now(),success:2,fail:0},
+{id:crypto.randomUUID(),name:"مهرداد جواهری",phone:"09156458089",context:"اسباب‌بازی؛ شهمیرزاد؛ دوست مرتضی موذن",anchor:"645 → 80 → 89",image:"ساعت 6:45 مغازه را ترک می‌کند، باشگاه رکورد 80 تا 89",station:"طبقه پایین شهمیرزاد",level:2,nextReview:now(),success:2,fail:0},
+{id:crypto.randomUUID(),name:"عبدالله نیکوسیرت",phone:"09159314657",context:"نزول پول؛ طلب 46 میلیون",anchor:"931 → 46 → 57",image:"9÷3=3 و 3÷3=1؛ بعد می‌گوید 46 میلیون برام بزن؛ تهش 57",station:"میز چک",level:2,nextReview:now(),success:2,fail:0},
+{id:crypto.randomUUID(),name:"محمدجواد مددی",phone:"09399292186",context:"موبایل‌فروش؛ 207 پاناروما",anchor:"0939 → 929 → 21 → 86",image:"مددی موبایل‌فروش؛ 0939 ده‌تا کم 929؛ مددی 21 ساله؛ باتری 86٪",station:"ویترین موبایل",level:1,nextReview:now(),success:1,fail:0}
+]};
+}
+
+function persist(){localStorage.setItem(LS_KEY, JSON.stringify(state)); renderAll();}
+function fmtPhone(p){let x=digits(p); return x.replace(/^(\d{4})(\d{3})(\d{4})$/,"$1 $2 $3");}
+function digits(s){return (s||"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/\D/g,"");}
+function el(id){return document.getElementById(id)}
+
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll(".tab,.panel").forEach(x=>x.classList.remove("active"));
+ b.classList.add("active"); el(b.dataset.tab).classList.add("active");
+});
+
+function renderAll(){renderStations(); renderItems(); renderDash(); renderLoci(); renderTrain();}
+function renderStations(){
+ const s=el("station"); s.innerHTML = stations.map(x=>`<option>${x}</option>`).join("");
+}
+function renderDash(){
+ const total=state.items.length, due=state.items.filter(i=>i.nextReview<=now()).length;
+ const long= total ? Math.round(state.items.filter(i=>i.level>=3).length/total*100) : 0;
+ el("statTotal").textContent=total; el("statDue").textContent=due; el("statLong").textContent=long+"%";
+ el("progBar").style.width=long+"%"; el("progText").textContent=long+"%";
+ el("dueList").innerHTML = state.items.filter(i=>i.nextReview<=now()).map(i=>`<div>• ${i.name} — <span class="ltr">${fmtPhone(i.phone)}</span></div>`).join("") || "فعلاً مرور فوری نداری.";
+}
+function renderItems(){
+ el("itemsList").innerHTML = state.items.map(i=>{
+  const chunks = chunkPhone(i.phone).map(c=>`<span class="chunk">${c}</span>`).join("");
+  return `<div class="card">
+    <div class="row"><h2>${i.name}</h2><span class="pill">سطح ${i.level}</span></div>
+    <div class="num">${fmtPhone(i.phone)}</div>
+    <div>${chunks}</div>
+    <div class="major">${majorExplain(i.phone)}</div>
+    <p><b>Anchor:</b> ${i.anchor||"-"}</p>
+    <p><b>تصویر:</b> ${i.image||"-"}</p>
+    <p class="muted small">ایستگاه: ${i.station||"-"} | موفق: ${i.success||0} | خطا: ${i.fail||0}</p>
+    <div class="btns">
+      <button onclick="editItem('${i.id}')">ویرایش</button>
+      <button class="bad" onclick="deleteItem('${i.id}')">حذف</button>
+    </div>
+  </div>`
+ }).join("");
+}
+function chunkPhone(p){
+ const x=digits(p);
+ if(x.length===11) return [x.slice(0,4),x.slice(4,7),x.slice(7,9),x.slice(9,11)];
+ return x.match(/.{1,3}/g)||[];
+}
+const majorMap = {"0":"س/ز","1":"ت/د","2":"ن","3":"م","4":"ر","5":"ل","6":"ج/چ/ش","7":"ک/گ","8":"ف/و","9":"ب/پ"};
+function majorExplain(p){
+ return chunkPhone(p).map(ch=>{
+  const m = ch.split("").map(d=>`${d}=${majorMap[d]}`).join("، ");
+  return `<div class="small muted"><span class="ltr">${ch}</span>: ${m}</div>`
+ }).join("");
+}
+function saveItem(){
+ const id=el("editId").value || crypto.randomUUID();
+ const item = {
+  id, name:el("name").value.trim(), phone:digits(el("phone").value),
+  context:el("context").value.trim(), anchor:el("anchor").value.trim(), image:el("image").value.trim(),
+  station:el("station").value, level:0, nextReview:now(), success:0, fail:0
+ };
+ if(!item.name || item.phone.length<8){alert("نام و شماره معتبر وارد کن."); return;}
+ const idx=state.items.findIndex(x=>x.id===id);
+ if(idx>=0){ item.level=state.items[idx].level; item.nextReview=state.items[idx].nextReview; item.success=state.items[idx].success; item.fail=state.items[idx].fail; state.items[idx]=item; }
+ else state.items.push(item);
+ clearForm(); persist();
+}
+function clearForm(){["editId","name","phone","context","anchor","image"].forEach(id=>el(id).value="");}
+function editItem(id){
+ const i=state.items.find(x=>x.id===id); if(!i)return;
+ el("editId").value=i.id; el("name").value=i.name; el("phone").value=fmtPhone(i.phone);
+ el("context").value=i.context||""; el("anchor").value=i.anchor||""; el("image").value=i.image||"";
+ el("station").value=i.station||stations[0]; window.scrollTo({top:0,behavior:"smooth"});
+}
+function deleteItem(id){ if(confirm("حذف شود؟")){state.items=state.items.filter(x=>x.id!==id); persist();}}
+function autoFillMajor(){
+ const p=digits(el("phone").value);
+ el("anchor").value = chunkPhone(p).join(" → ");
+ el("image").value = "با سیستم ماژور: " + chunkPhone(p).map(ch=>ch.split("").map(d=>majorMap[d]).join("-")).join(" | ");
+}
+const trainSteps = [
+["۱) جداسازی","اول پیش‌شماره را جدا کن. بعد هسته اصلی را به چانک‌های ۲ یا ۳ رقمی بشکن."],
+["۲) کشف الگو","دنبال تکرار، صعود/نزول، کم/زیاد شدن، ضرب/تقسیم، شباهت تاریخی یا شخصی بگرد."],
+["۳) اتصال به هویت","عدد باید به خود آدم وصل شود؛ نه داستان عمومی. مثل موذن ← مسجد ← پله."],
+["۴) تصویر ذهنی","تصویر باید کوتاه، عجیب، واقعی و قابل بازیابی باشد."],
+["۵) مرور فاصله‌دار","بعد از پاسخ درست: ۱ ساعت، ۱ روز، ۱ هفته، ۱ ماه. بعد از خطا: برگشت به مرور فوری."]
+];
+function renderTrain(){el("trainBox").innerHTML=`<h2>${trainSteps[trainStep][0]}</h2><p>${trainSteps[trainStep][1]}</p>`}
+function nextTrain(){trainStep=(trainStep+1)%trainSteps.length;renderTrain()}
+function prevTrain(){trainStep=(trainStep-1+trainSteps.length)%trainSteps.length;renderTrain()}
+
+function pickDue(){
+ const due=state.items.filter(i=>i.nextReview<=now());
+ const pool=due.length?due:state.items;
+ return pool[Math.floor(Math.random()*pool.length)];
+}
+function newQuestion(type){
+ if(!state.items.length){alert("اول شماره اضافه کن.");return;}
+ currentQ={item:pickDue(),type};
+ const i=currentQ.item;
+ let prompt="";
+ if(type==="nameToPhone") prompt=`شماره <b>${i.name}</b> چیست؟`;
+ if(type==="phoneToName") prompt=`این شماره مال کیست؟<div class="num">${fmtPhone(i.phone)}</div>`;
+ if(type==="anchorToPhone") prompt=`از روی Anchor شماره را بگو:<br><b>${i.name}</b><br>${i.image||i.anchor}`;
+ el("q").innerHTML=prompt; el("testAnswer").value=""; el("testResult").innerHTML="";
+}
+function showAnswer(){
+ if(!currentQ)return;
+ const i=currentQ.item;
+ el("testResult").innerHTML=`<div class="card"><b>${i.name}</b><div class="num">${fmtPhone(i.phone)}</div><div>${i.anchor}</div><div class="muted">${i.image||""}</div></div>`;
+}
+function checkTest(remembered){
+ if(!currentQ)return;
+ const i=currentQ.item;
+ if(remembered){i.success=(i.success||0)+1; i.level=Math.min(4,(i.level||0)+1); i.nextReview=now()+intervals[Math.min(i.level-1,3)];}
+ else {i.fail=(i.fail||0)+1; i.level=0; i.nextReview=now();}
+ persist(); showAnswer();
+}
+function renderLoci(){
+ el("lociList").innerHTML = stations.map((s,idx)=>{
+  const inside=state.items.filter(i=>i.station===s);
+  return `<div class="card"><div class="row"><b>${idx+1}. ${s}</b><span class="pill">${inside.length} آیتم</span></div>
+  ${inside.map(i=>`<div class="small">• ${i.name} — <span class="ltr">${fmtPhone(i.phone)}</span></div>`).join("")||'<div class="muted small">خالی</div>'}
+  </div>`
+ }).join("");
+}
+renderAll(); newQuestion("nameToPhone");
+</script>
+</body>
+</html>
