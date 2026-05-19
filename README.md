@@ -1,23 +1,17 @@
-# Memory OS Human
+# یادسپار
 
-نسخه انسانی‌تر اپ حفظ شماره موبایل.
+PWA کاملاً لوکال برای:
+- لغات انگلیسی: spaced retrieval
+- شماره موبایل: chunked recall
+- لیست‌های کوتاه: prospective reminders
 
-## v4
-- در مرور، الگو و شماره دیگر لو داده نمی‌شود.
-- دکمه کوچک «💡 راهنما» اضافه شد.
-- راهنما فقط Hint کوتاه نشان می‌دهد، نه Anchor کامل.
+## اجرا
+1. این پوشه را روی یک static server اجرا کنید.
+2. روی آیفون با Safari باز کنید.
+3. Share → Add to Home Screen.
 
-## تفاوت نسخه v3
-- جریان تمرین روزانه دارد، نه صفحه‌های پراکنده
-- هر بار فقط یک کار اصلی به کاربر نشان می‌دهد
-- شماره‌ها همیشه LTR هستند
-- ضعف‌ها مثل Middle Drop و Prefix Confusion ردیابی می‌شوند
-- مرور فاصله‌دار شبیه Anki ولی ساده‌تر اجرا می‌شود
-- مناسب GitHub Pages
+## گزینه‌های ساده برای اجرا
+- Python: `python3 -m http.server 8080`
+- Node: هر static server
 
-## اجرا روی GitHub Pages
-1. فایل‌ها را در ریشه ریپازیتوری بگذارید.
-2. Repository را Public کنید.
-3. Settings → Pages
-4. Source: Deploy from branch
-5. Branch: main / root
+سپس آدرس را در همان شبکه روی آیفون باز کنید.
