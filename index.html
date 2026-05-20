@@ -3,328 +3,164 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#f8fafc" />
+  <meta name="theme-color" content="#0f172a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="یادسپار" />
   <title>یادسپار</title>
   <link rel="manifest" href="./manifest.webmanifest" />
-  <link rel="icon" href="./icon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="./icon.svg" />
   <style>
     :root {
-      color-scheme: light;
-      --bg: #f5f7fb;
+      --bg: #f8fafc;
       --surface: #ffffff;
-      --surface-soft: #f8fafc;
-      --surface-strong: #eef2ff;
+      --surface-2: #eef2ff;
       --text: #0f172a;
-      --text-soft: #475569;
-      --line: rgba(148, 163, 184, 0.22);
-      --primary: #2f5bea;
-      --primary-strong: #1d4ed8;
-      --primary-soft: rgba(47, 91, 234, 0.12);
+      --muted: #475569;
+      --line: #e2e8f0;
+      --primary: #2563eb;
+      --primary-2: #1d4ed8;
       --danger: #dc2626;
       --warn: #d97706;
       --success: #059669;
-      --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
-      --shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.05);
-      --radius: 24px;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      --radius: 20px;
       --safe-top: env(safe-area-inset-top);
       --safe-bottom: env(safe-area-inset-bottom);
     }
 
-    body[data-theme="dark"] {
-      color-scheme: dark;
-      --bg: #09111f;
-      --surface: #111b2f;
-      --surface-soft: #0f1728;
-      --surface-strong: #14213d;
-      --text: #e5eefb;
-      --text-soft: #b0bfd8;
-      --line: rgba(148, 163, 184, 0.18);
-      --primary: #5b8cff;
-      --primary-strong: #8eb0ff;
-      --primary-soft: rgba(91, 140, 255, 0.16);
-      --danger: #f87171;
-      --warn: #fbbf24;
-      --success: #34d399;
-      --shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
-      --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.18);
-    }
-
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    html, body {
-      margin: 0;
-      min-height: 100%;
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Tahoma, sans-serif;
-    }
-    body { padding-bottom: calc(96px + var(--safe-bottom)); }
+    html, body { margin: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Tahoma, sans-serif; }
+    body { min-height: 100vh; padding-bottom: calc(92px + var(--safe-bottom)); }
     button, input, textarea, select { font: inherit; }
-    button { border: none; cursor: pointer; }
+    button { cursor: pointer; border: none; }
     .app { max-width: 860px; margin: 0 auto; padding: calc(18px + var(--safe-top)) 16px 24px; }
     .stack { display: grid; gap: 14px; }
-    .screen { display: none; }
-    .screen.active { display: block; }
     .card {
       background: var(--surface);
-      border: 1px solid var(--line);
+      border: 1px solid rgba(148, 163, 184, 0.14);
       border-radius: var(--radius);
-      box-shadow: var(--shadow-soft);
+      box-shadow: var(--shadow);
       padding: 16px;
     }
-    .glass {
-      background: linear-gradient(160deg, rgba(47, 91, 234, 0.14), rgba(47, 91, 234, 0.04));
-      border: 1px solid rgba(47, 91, 234, 0.12);
-    }
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .brand-mark {
-      width: 44px;
-      height: 44px;
-      border-radius: 16px;
+    .hero {
       display: grid;
-      place-items: center;
-      background: linear-gradient(145deg, #10204d, var(--primary));
+      gap: 12px;
+      background: linear-gradient(140deg, #0f172a, #1d4ed8);
       color: white;
-      font-size: 1.2rem;
-      box-shadow: var(--shadow-soft);
+      padding: 18px;
+      border-radius: 24px;
+      box-shadow: 0 18px 40px rgba(29, 78, 216, 0.24);
     }
-    .brand h1 {
+    .hero h1 {
       margin: 0;
-      font-size: 1.18rem;
-      line-height: 1.15;
+      font-size: 1.45rem;
       letter-spacing: -0.02em;
     }
-    .brand .tiny { margin-top: 3px; }
-    .top-actions, .row, .chips, .quick-actions, .segmented { display: flex; gap: 10px; flex-wrap: wrap; }
-    .icon-btn {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      color: var(--text);
-      box-shadow: var(--shadow-soft);
-      font-weight: 700;
+    .hero p {
+      margin: 0;
+      color: rgba(255,255,255,.82);
+      line-height: 1.7;
+      font-size: .95rem;
     }
-    .section-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-    .section-head h2, .section-head h3, .section-head h4 { margin: 0; font-size: 1rem; }
-    .section-head .meta-line {
-      color: var(--text-soft);
-      font-size: .85rem;
-    }
-    .hero-shell {
-      display: grid;
-      gap: 14px;
-      background: linear-gradient(160deg, #0d1730, #2140a8 70%, #4466ef);
-      color: #f8fbff;
-      border-radius: 30px;
-      padding: 18px;
-      box-shadow: var(--shadow);
-    }
-    .hero-shell .section-head h2 { font-size: 1.05rem; color: #f8fbff; }
-    .hero-shell .meta-line,
-    .hero-shell .tiny,
-    .hero-shell .help-box { color: rgba(255,255,255,.84); }
-    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .stat-card {
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 22px;
-      padding: 14px;
+    .counts {
       display: grid;
       gap: 10px;
-      justify-items: center;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .count-pill {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 18px;
+      padding: 12px;
       text-align: center;
     }
-    .ring {
-      --p: 0%;
-      width: 88px;
-      height: 88px;
-      border-radius: 50%;
-      background: conic-gradient(#ffffff var(--p), rgba(255,255,255,.18) 0);
-      display: grid;
-      place-items: center;
-      position: relative;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+    .count-pill strong {
+      display: block;
+      font-size: 1.3rem;
+      margin-bottom: 4px;
     }
-    .ring::before {
-      content: "";
-      position: absolute;
-      inset: 8px;
-      border-radius: 50%;
-      background: rgba(19, 31, 72, 0.92);
-      border: 1px solid rgba(255,255,255,.08);
-    }
-    .ring-content {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      gap: 2px;
-      place-items: center;
-      line-height: 1;
-    }
-    .ring-content strong { font-size: 1.3rem; }
-    .ring-content span { font-size: .75rem; color: rgba(255,255,255,.78); }
-    .stat-card .emoji { font-size: 1.2rem; }
-    .stat-card .label { font-size: .9rem; font-weight: 700; }
-    .stat-card .sub { font-size: .78rem; color: rgba(255,255,255,.78); }
-    .hero-mini-actions {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-    .mini-action {
-      border-radius: 18px;
-      padding: 12px 10px;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
-      color: #f8fbff;
-      display: grid;
-      gap: 4px;
-      justify-items: center;
-      font-weight: 700;
-    }
-    .mini-action .emoji { font-size: 1.15rem; }
-    .composer {
-      display: grid;
-      gap: 12px;
-    }
-    .segmented {
-      gap: 8px;
-    }
-    .chip {
-      border-radius: 999px;
-      padding: 10px 14px;
-      background: var(--surface-soft);
-      border: 1px solid var(--line);
-      color: var(--text);
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .chip.active {
-      background: var(--primary-soft);
-      color: var(--primary-strong);
-      border-color: rgba(47, 91, 234, 0.24);
-    }
-    textarea.quick-input, textarea.input, input.input {
-      width: 100%;
-      border-radius: 20px;
-      border: 1px solid var(--line);
-      background: var(--surface-soft);
-      color: var(--text);
-      outline: none;
-      padding: 16px;
-      resize: vertical;
-    }
-    textarea.quick-input {
-      min-height: 122px;
-      line-height: 1.85;
-      font-size: 1rem;
-    }
-    .quick-footer {
+    .section-title {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .section-title h2, .section-title h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+    .section-title small {
+      color: var(--muted);
+    }
+    .muted { color: var(--muted); }
+    .tiny { font-size: .82rem; color: var(--muted); }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-weight: 600;
+    }
+    .chip.active {
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--primary-2);
+      border-color: rgba(37, 99, 235, 0.25);
+    }
+    textarea.quick-input, input.input, textarea.input {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 16px;
+      padding: 14px 16px;
+      color: var(--text);
+      outline: none;
+      resize: vertical;
+      min-height: 116px;
+    }
+    input.input { min-height: auto; }
+    .quick-actions, .row {
+      display: flex;
       gap: 10px;
       flex-wrap: wrap;
     }
-    .quick-hint {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: .88rem;
-      color: var(--text-soft);
-      background: var(--surface-soft);
-      border-radius: 999px;
-      padding: 8px 12px;
-      border: 1px solid var(--line);
-    }
     .btn {
-      border-radius: 18px;
-      padding: 12px 16px;
-      font-weight: 800;
-      transition: transform .12s ease, opacity .12s ease;
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-weight: 700;
+      transition: transform .12s ease, opacity .12s ease, background .12s ease;
     }
     .btn:active { transform: scale(.98); }
     .btn-primary { background: var(--primary); color: white; }
-    .btn-secondary { background: var(--primary-soft); color: var(--primary-strong); border: 1px solid rgba(47, 91, 234, 0.14); }
-    .btn-ghost { background: var(--surface-soft); color: var(--text); border: 1px solid var(--line); }
-    .btn-danger { background: rgba(220, 38, 38, 0.1); color: var(--danger); border: 1px solid rgba(220, 38, 38, 0.18); }
-    .btn-success { background: rgba(5, 150, 105, 0.12); color: var(--success); border: 1px solid rgba(5, 150, 105, 0.22); }
-    .btn-warn { background: rgba(217, 119, 6, 0.1); color: var(--warn); border: 1px solid rgba(217, 119, 6, 0.2); }
+    .btn-secondary { background: #eef2ff; color: var(--primary-2); }
+    .btn-ghost { background: #f8fafc; color: var(--text); border: 1px solid var(--line); }
+    .btn-danger { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
+    .btn-success { background: #ecfdf5; color: var(--success); border: 1px solid #a7f3d0; }
+    .btn-warn { background: #fff7ed; color: var(--warn); border: 1px solid #fed7aa; }
     .btn-small { padding: 9px 12px; border-radius: 14px; font-size: .92rem; }
-    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .compact-strip {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-    .compact-box {
-      background: var(--surface-soft);
+    .grid-2 { display: grid; gap: 12px; grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { display: grid; gap: 12px; grid-template-columns: repeat(3, 1fr); }
+    .summary-box {
+      background: #f8fafc;
       border: 1px solid var(--line);
       border-radius: 18px;
-      padding: 12px;
-      display: grid;
-      gap: 6px;
-      justify-items: center;
-      text-align: center;
+      padding: 14px;
     }
-    .compact-box .big { font-size: 1.45rem; font-weight: 800; line-height: 1; }
-    .compact-box .emoji { font-size: 1.15rem; }
-    .compact-box .tiny { text-align: center; }
-    .info-wrap { display: grid; gap: 8px; }
-    .help-box {
-      display: none;
-      background: var(--surface-soft);
-      border: 1px dashed var(--line);
-      border-radius: 18px;
-      padding: 12px 14px;
-      line-height: 1.9;
-      color: var(--text-soft);
-      font-size: .9rem;
-    }
-    .help-box.open { display: block; }
-    .empty {
-      text-align: center;
-      color: var(--text-soft);
-      padding: 18px 10px;
-      background: var(--surface-soft);
-      border-radius: 18px;
-      border: 1px dashed var(--line);
+    .summary-box strong {
+      display: block;
+      font-size: 1.2rem;
+      margin-bottom: 4px;
     }
     .item-list { display: grid; gap: 12px; }
     .item-card {
-      background: var(--surface);
+      background: white;
       border: 1px solid var(--line);
-      border-radius: 22px;
+      border-radius: 18px;
       padding: 14px;
       display: grid;
       gap: 10px;
-      box-shadow: var(--shadow-soft);
     }
     .item-card header {
       display: flex;
@@ -332,154 +168,43 @@
       align-items: flex-start;
       gap: 12px;
     }
-    .item-card h4 { margin: 0; line-height: 1.6; font-size: 1rem; unicode-bidi: plaintext; }
-    .meta { display: flex; gap: 8px; flex-wrap: wrap; }
+    .item-card h4 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.5;
+      unicode-bidi: plaintext;
+    }
+    .item-card .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      font-size: .8rem;
       padding: 7px 10px;
       border-radius: 999px;
-      background: var(--surface-soft);
+      background: #f8fafc;
       border: 1px solid var(--line);
-      color: var(--text-soft);
-      font-size: .8rem;
+      color: var(--muted);
     }
-    .badge.primary { background: var(--primary-soft); color: var(--primary-strong); }
-    .badge.warn { background: rgba(217, 119, 6, 0.1); color: var(--warn); }
-    .badge.success { background: rgba(5, 150, 105, 0.12); color: var(--success); }
-    .tiny { font-size: .84rem; color: var(--text-soft); line-height: 1.8; }
-    .muted { color: var(--text-soft); }
+    .badge.primary { background: #eff6ff; color: var(--primary-2); border-color: #bfdbfe; }
+    .badge.warn { background: #fff7ed; color: var(--warn); border-color: #fed7aa; }
+    .badge.success { background: #ecfdf5; color: var(--success); border-color: #a7f3d0; }
     .ltr { direction: ltr; unicode-bidi: plaintext; text-align: left; }
-    .mono { font-variant-numeric: tabular-nums; }
-    .agenda-list { display: grid; gap: 10px; }
-    .agenda-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 14px;
-      border-radius: 18px;
-      background: var(--surface-soft);
-      border: 1px solid var(--line);
-    }
-    .agenda-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
-    .agenda-item .icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 14px;
-      background: var(--primary-soft);
-      display: grid;
-      place-items: center;
-      flex: 0 0 auto;
-      font-size: 1rem;
-    }
-    .agenda-item strong { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 230px; }
-    .review-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.62);
-      display: none;
-      align-items: flex-end;
-      justify-content: center;
-      z-index: 50;
-    }
-    .review-overlay.open { display: flex; }
-    .review-sheet {
-      width: min(100%, 860px);
-      max-height: 92vh;
-      overflow: auto;
-      background: var(--surface);
-      border-radius: 28px 28px 0 0;
-      padding: 18px 16px calc(22px + var(--safe-bottom));
-      box-shadow: 0 -20px 50px rgba(15,23,42,.22);
-      display: grid;
-      gap: 14px;
-    }
-    .review-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-    .progress {
-      height: 10px;
-      border-radius: 999px;
-      background: var(--surface-soft);
-      overflow: hidden;
-      border: 1px solid var(--line);
-    }
-    .progress > span {
-      display: block;
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--primary), var(--success));
-      transition: width .18s ease;
-    }
-    .review-card {
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 20px 16px;
-      min-height: 240px;
-      display: grid;
-      gap: 14px;
-      align-content: center;
-      background: var(--surface-soft);
-    }
-    .review-prompt { text-align: center; display: grid; gap: 12px; }
-    .review-prompt .kind {
-      justify-self: center;
-      font-size: .86rem;
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: var(--primary-soft);
-      color: var(--primary-strong);
-      border: 1px solid rgba(47, 91, 234, 0.18);
-    }
-    .review-prompt h3 { margin: 0; font-size: 1.45rem; line-height: 1.7; letter-spacing: -0.02em; unicode-bidi: plaintext; }
-    .review-answer { display: none; gap: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
-    .review-answer.visible { display: grid; }
-    .summary-box {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 14px;
-    }
-    .summary-box strong { display: block; font-size: 1.2rem; margin-bottom: 4px; }
-    .rating-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
-    .list-lines { display: grid; gap: 8px; }
-    .list-line {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--surface);
-      border-radius: 14px;
-      padding: 10px 12px;
-      border: 1px solid var(--line);
-    }
-    .list-line input[type="checkbox"] {
-      width: 20px;
-      height: 20px;
-      accent-color: var(--primary);
-      flex: 0 0 auto;
-    }
-    .setting-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--line);
-    }
-    .setting-row:last-child { border-bottom: none; }
+    .screen { display: none; }
+    .screen.active { display: block; }
     .nav {
       position: fixed;
       inset-inline: 0;
       bottom: 0;
-      background: color-mix(in srgb, var(--surface) 92%, transparent);
-      border-top: 1px solid var(--line);
+      background: rgba(255,255,255,.92);
       backdrop-filter: blur(18px);
+      border-top: 1px solid rgba(148, 163, 184, 0.18);
       padding: 10px 12px calc(10px + var(--safe-bottom));
-      z-index: 25;
+      z-index: 20;
     }
     .nav-inner {
       max-width: 860px;
@@ -492,15 +217,137 @@
       background: transparent;
       border-radius: 18px;
       padding: 10px 6px;
-      color: var(--text-soft);
+      color: var(--muted);
       font-weight: 700;
       display: grid;
       gap: 4px;
       place-items: center;
-      font-size: .79rem;
+      font-size: .82rem;
     }
-    .nav-btn .emoji { font-size: 1.05rem; }
-    .nav-btn.active { background: var(--primary-soft); color: var(--primary-strong); }
+    .nav-btn.active {
+      background: #eff6ff;
+      color: var(--primary-2);
+    }
+    .review-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.64);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0;
+      z-index: 50;
+    }
+    .review-overlay.open { display: flex; }
+    .review-sheet {
+      width: min(100%, 860px);
+      max-height: 92vh;
+      overflow: auto;
+      background: white;
+      border-radius: 28px 28px 0 0;
+      padding: 18px 16px calc(22px + var(--safe-bottom));
+      box-shadow: 0 -20px 50px rgba(15,23,42,.22);
+      display: grid;
+      gap: 14px;
+    }
+    .review-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .progress {
+      height: 10px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      overflow: hidden;
+    }
+    .progress > span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, #2563eb, #22c55e);
+      width: 0%;
+      transition: width .2s ease;
+    }
+    .review-card {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 20px 16px;
+      min-height: 240px;
+      display: grid;
+      gap: 14px;
+      align-content: center;
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+    }
+    .review-prompt {
+      text-align: center;
+      display: grid;
+      gap: 12px;
+    }
+    .review-prompt .kind {
+      justify-self: center;
+      font-size: .86rem;
+      background: #eff6ff;
+      color: var(--primary-2);
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid #bfdbfe;
+    }
+    .review-prompt h3 {
+      margin: 0;
+      font-size: 1.45rem;
+      line-height: 1.7;
+      letter-spacing: -0.02em;
+      unicode-bidi: plaintext;
+    }
+    .review-answer {
+      display: none;
+      gap: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--line);
+    }
+    .review-answer.visible { display: grid; }
+    .rating-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .list-lines {
+      display: grid;
+      gap: 8px;
+    }
+    .list-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+    }
+    .list-line input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--primary);
+      flex: 0 0 auto;
+    }
+    .notice {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+      border-radius: 18px;
+      padding: 12px 14px;
+      line-height: 1.8;
+      font-size: .92rem;
+    }
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 22px 10px;
+      border: 1px dashed var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,.5);
+    }
     .toast-wrap {
       position: fixed;
       top: calc(10px + var(--safe-top));
@@ -514,7 +361,7 @@
     }
     .toast {
       pointer-events: auto;
-      background: rgba(15, 23, 42, 0.96);
+      background: rgba(15, 23, 42, 0.95);
       color: white;
       border-radius: 16px;
       padding: 12px 14px;
@@ -525,22 +372,34 @@
       gap: 12px;
       animation: slideIn .18s ease;
     }
-    .toast .btn-secondary { color: white; background: rgba(255,255,255,.16); border-color: transparent; }
-    .hidden { display: none !important; }
     @keyframes slideIn {
       from { opacity: 0; transform: translateY(-6px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    @media (max-width: 720px) {
-      .stat-grid, .compact-strip, .grid-2, .rating-grid { grid-template-columns: 1fr; }
-      .hero-mini-actions { grid-template-columns: repeat(3, 1fr); }
+    .field-grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(2, 1fr);
     }
-    @media (max-width: 540px) {
-      .hero-mini-actions, .compact-strip { grid-template-columns: 1fr 1fr 1fr; }
-      .stat-grid { grid-template-columns: 1fr; }
-      .agenda-item strong { max-width: 160px; }
-      .rating-grid { grid-template-columns: 1fr 1fr; }
-      .quick-footer { align-items: stretch; }
+    .setting-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .setting-row:last-child { border-bottom: none; }
+    .mono { font-variant-numeric: tabular-nums; }
+    .hidden { display: none !important; }
+    @media (max-width: 720px) {
+      .counts, .grid-3, .field-grid, .rating-grid { grid-template-columns: 1fr 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 520px) {
+      .counts, .grid-3, .field-grid, .rating-grid { grid-template-columns: 1fr; }
+      .review-sheet { padding-inline: 14px; }
+      .hero h1 { font-size: 1.3rem; }
     }
   </style>
 </head>
@@ -549,197 +408,149 @@
 
   <main class="app">
     <section id="screen-home" class="screen active stack">
-      <div class="topbar">
-        <div class="brand">
-          <div class="brand-mark">🧠</div>
-          <div>
-            <h1>یادسپار</h1>
-            <div class="tiny">لوکال، سبک، مناسب آیفون</div>
-          </div>
+      <div class="hero">
+        <div>
+          <h1>یادسپار</h1>
+          <p>وب‌اپ لوکال برای حفظ لغات انگلیسی، شماره موبایل و لیست‌های کوتاه با سه سیستم مرور متفاوت و کم‌فشار برای ذهن.</p>
         </div>
-        <div class="top-actions">
-          <button id="themeToggleBtn" class="icon-btn" title="تم شب/روز">🌙</button>
-          <button class="icon-btn info-toggle" data-target="homeHeroInfo" title="توضیح">i</button>
+        <div class="counts">
+          <div class="count-pill">
+            <strong id="dueWordsCount">0</strong>
+            <span>لغتِ امروز</span>
+          </div>
+          <div class="count-pill">
+            <strong id="duePhonesCount">0</strong>
+            <span>شمارهِ امروز</span>
+          </div>
+          <div class="count-pill">
+            <strong id="dueListsCount">0</strong>
+            <span>لیستِ فعال</span>
+          </div>
         </div>
       </div>
 
-      <section class="hero-shell">
-        <div class="section-head">
-          <div>
-            <h2>نمای کلی امروز</h2>
-            <div class="meta-line">با یک نگاه: چه چیزی امروز منتظر مرور است</div>
-          </div>
+      <section class="card stack">
+        <div class="section-title">
+          <h2>ورود سریع</h2>
+          <small id="quickHint">تشخیص خودکار: —</small>
         </div>
-        <div id="homeHeroInfo" class="help-box">
-          این اپ برای سه نوع ورودی طراحی شده: <strong>لغت</strong> با مرور فاصله‌دار، <strong>شماره</strong> با تقسیم‌بندی chunk و <strong>لیست</strong> با یادآوری به‌موقع. متن توضیحی همیشه پنهان است تا داشبورد خلوت بماند.
+        <div class="chips" id="typeChips">
+          <button class="chip active" data-type="auto">هوشمند</button>
+          <button class="chip" data-type="word">لغت</button>
+          <button class="chip" data-type="phone">شماره</button>
+          <button class="chip" data-type="list">لیست</button>
         </div>
-        <div class="stat-grid">
-          <article class="stat-card">
-            <div id="wordsRing" class="ring" style="--p:0%">
-              <div class="ring-content"><strong id="dueWordsCount">0</strong><span>امروز</span></div>
-            </div>
-            <div class="emoji">🔤</div>
-            <div class="label">لغت</div>
-            <div id="wordsRingSub" class="sub">0% پایدار</div>
-          </article>
-          <article class="stat-card">
-            <div id="phonesRing" class="ring" style="--p:0%">
-              <div class="ring-content"><strong id="duePhonesCount">0</strong><span>امروز</span></div>
-            </div>
-            <div class="emoji">📞</div>
-            <div class="label">شماره</div>
-            <div id="phonesRingSub" class="sub">0% پایدار</div>
-          </article>
-          <article class="stat-card">
-            <div id="listsRing" class="ring" style="--p:0%">
-              <div class="ring-content"><strong id="dueListsCount">0</strong><span>فعال</span></div>
-            </div>
-            <div class="emoji">📝</div>
-            <div class="label">لیست</div>
-            <div id="listsRingSub" class="sub">0% انجام‌شده</div>
-          </article>
+        <textarea id="quickInput" class="quick-input" placeholder="نمونه‌ها:
+abandon = رها کردن
+09121234567 علی
+خرید: شیر، نان، تخم‌مرغ"></textarea>
+        <div class="quick-actions">
+          <button id="saveQuickBtn" class="btn btn-primary">ذخیره هوشمند</button>
+          <button id="clearQuickBtn" class="btn btn-ghost">پاک کردن</button>
         </div>
-        <div class="hero-mini-actions">
-          <button id="startWordReviewBtn" class="mini-action"><span class="emoji">🔤</span><span id="wordActionLabel">مرور 0</span></button>
-          <button id="startPhoneReviewBtn" class="mini-action"><span class="emoji">📞</span><span id="phoneActionLabel">مرور 0</span></button>
-          <button id="focusListsBtn" class="mini-action"><span class="emoji">📝</span><span id="listActionLabel">لیست 0</span></button>
+        <div class="notice">
+          برای کمترین کلیک، فقط بنویس و ذخیره کن. اپ خودش تشخیص می‌دهد ورودی «لغت»، «شماره» یا «لیست» است. هر خط هم می‌تواند یک آیتم جدا باشد.
         </div>
       </section>
 
-      <section class="card composer">
-        <div class="section-head">
-          <div>
-            <h3>ورود سریع</h3>
-            <div id="quickHint" class="meta-line">هوشمند: —</div>
-          </div>
-          <button class="icon-btn info-toggle" data-target="quickInfo" title="راهنما">i</button>
+      <section class="grid-3">
+        <div class="summary-box">
+          <strong id="masteredWordsCount">0</strong>
+          <span class="muted">لغات نسبتاً پایدار</span>
         </div>
-        <div class="segmented" id="typeChips">
-          <button class="chip active" data-type="auto">✨ هوشمند</button>
-          <button class="chip" data-type="word">🔤 لغت</button>
-          <button class="chip" data-type="phone">📞 شماره</button>
-          <button class="chip" data-type="list">📝 لیست</button>
+        <div class="summary-box">
+          <strong id="knownPhonesCount">0</strong>
+          <span class="muted">شماره‌های نسبتاً پایدار</span>
         </div>
-        <textarea id="quickInput" class="quick-input" placeholder="هر طور راحتی بنویس…
-abandon رها کردن
-علی 09121234567
-خرید: شیر، نان، تخم‌مرغ
-یا حتی چند خط ترکیبی"></textarea>
-        <div class="quick-footer">
-          <div class="quick-hint"><span>🪄</span><span>اپ خودش نوع ورودی را تشخیص می‌دهد.</span></div>
-          <div class="quick-actions">
-            <button id="saveQuickBtn" class="btn btn-primary">ذخیره</button>
-            <button id="clearQuickBtn" class="btn btn-ghost">پاک</button>
-          </div>
-        </div>
-        <div id="quickInfo" class="help-box">
-          حالت هوشمند به یک قالب خشک محدود نیست. مثال‌ها: <span class="ltr">abandon = رها کردن</span>، <span class="ltr">09121234567 علی</span>، یا <span dir="auto">شیر، نان، تخم‌مرغ</span>. اگر چند خط بنویسی، سیستم هر خط یا هر بلوک را جدا تحلیل می‌کند و در صورت لزوم آن‌ها را به‌عنوان لغت، شماره یا لیست ذخیره می‌کند.
-        </div>
-      </section>
-
-      <section class="compact-strip">
-        <div class="compact-box glass">
-          <div class="emoji">✅</div>
-          <div id="masteredWordsCount" class="big">0</div>
-          <div class="tiny">لغت پایدار</div>
-        </div>
-        <div class="compact-box glass">
-          <div class="emoji">💾</div>
-          <div id="knownPhonesCount" class="big">0</div>
-          <div class="tiny">شماره پایدار</div>
-        </div>
-        <div class="compact-box glass">
-          <div class="emoji">🏁</div>
-          <div id="completedListsCount" class="big">0</div>
-          <div class="tiny">لیست انجام‌شده</div>
+        <div class="summary-box">
+          <strong id="completedListsCount">0</strong>
+          <span class="muted">لیست‌های انجام‌شده</span>
         </div>
       </section>
 
       <section class="card stack">
-        <div class="section-head">
-          <div>
-            <h3>بعدی‌ها</h3>
-            <div id="homeRecommendations" class="meta-line">—</div>
-          </div>
+        <div class="section-title">
+          <h3>مرور پیشنهادی امروز</h3>
+          <small>جلسه‌های کوتاه و کم‌فشار</small>
         </div>
-        <div id="upNext" class="agenda-list"></div>
+        <div class="grid-3">
+          <button id="startWordReviewBtn" class="btn btn-secondary">مرور لغات</button>
+          <button id="startPhoneReviewBtn" class="btn btn-secondary">مرور شماره‌ها</button>
+          <button id="focusListsBtn" class="btn btn-secondary">چک‌کردن لیست‌ها</button>
+        </div>
+        <div id="homeRecommendations" class="tiny"></div>
+      </section>
+
+      <section class="card stack">
+        <div class="section-title">
+          <h3>بعدی‌ها</h3>
+          <small>فقط آیتم‌های مهم نزدیک</small>
+        </div>
+        <div id="upNext" class="item-list"></div>
       </section>
     </section>
 
     <section id="screen-words" class="screen stack">
       <section class="card stack">
-        <div class="section-head">
-          <div>
-            <h2>لغات</h2>
-            <div id="wordsMeta" class="meta-line">0 مورد</div>
-          </div>
-          <button class="icon-btn info-toggle" data-target="wordsInfo" title="توضیح">i</button>
+        <div class="section-title">
+          <h2>لغات</h2>
+          <small id="wordsMeta">0 مورد</small>
         </div>
-        <div id="wordsInfo" class="help-box">برای لغات، بازیابی فعال و مرور فاصله‌دار استفاده می‌شود. اگر فقط واژه انگلیسی را وارد کنی هم ذخیره می‌شود و بعداً می‌توانی معنی‌اش را کامل کنی.</div>
+        <div class="notice">
+          بهترین ورودی: <span class="ltr">word = معنی</span>. مرور این بخش با بازیابی فعال و فاصله‌گذاری انجام می‌شود.
+        </div>
+        <div class="summary-box">
+          <strong>پک‌های کتابی درخواستی</strong>
+          <div class="tiny"><span class="ltr">504 Absolutely Essential Words</span> و <span class="ltr">1100 Words You Need to Know</span> به‌خاطر حق‌نشر به‌صورت کامل داخل نسخه‌ی پیش‌فرض بسته‌بندی نشده‌اند. اگر فایل مجاز <span class="ltr">TXT / CSV / JSON</span> آن‌ها را بدهی، می‌توانم در نسخه بعدی مستقیماً به اپ اضافه‌شان کنم.</div>
+        </div>
         <div id="wordsList" class="item-list"></div>
       </section>
     </section>
 
     <section id="screen-phones" class="screen stack">
       <section class="card stack">
-        <div class="section-head">
-          <div>
-            <h2>شماره‌ها</h2>
-            <div id="phonesMeta" class="meta-line">0 مورد</div>
-          </div>
-          <button class="icon-btn info-toggle" data-target="phonesInfo" title="توضیح">i</button>
+        <div class="section-title">
+          <h2>شماره‌ها</h2>
+          <small id="phonesMeta">0 مورد</small>
         </div>
-        <div id="phonesInfo" class="help-box">شماره‌ها به‌صورت خودکار به chunkهای کوتاه‌تر شکسته می‌شوند تا حفظ‌کردن‌شان سبک‌تر شود. اگر کاربر شماره را با نام، توضیح یا هر ترتیب دیگری بنویسد، سیستم تلاش می‌کند آن را تشخیص دهد.</div>
+        <div class="notice">
+          اپ شماره‌ها را خودکار chunk می‌کند تا حفظ‌کردن‌شان سبک‌تر شود. مرور این بخش نسبت به لغات، زودتر و ریزتر تکرار می‌شود.
+        </div>
         <div id="phonesList" class="item-list"></div>
       </section>
     </section>
 
     <section id="screen-lists" class="screen stack">
       <section class="card stack">
-        <div class="section-head">
-          <div>
-            <h2>لیست‌ها</h2>
-            <div id="listsMeta" class="meta-line">0 مورد</div>
-          </div>
-          <button class="icon-btn info-toggle" data-target="listsInfo" title="توضیح">i</button>
+        <div class="section-title">
+          <h2>لیست‌ها</h2>
+          <small id="listsMeta">0 مورد</small>
         </div>
-        <div id="listsInfo" class="help-box">لیست‌ها قرار نیست مثل لغت برای یک سال مرور شوند. اینجا تمرکز روی یادآوری به‌موقع، بازسازی ذهنی سریع و چک‌کردن آیتم‌ها قبل از انجام است.</div>
+        <div class="notice">
+          لیست‌ها مثل لغت مرور بلندمدت نمی‌شوند. اینجا هدف «یادآوری به‌موقع» و تمرین کوتاه قبل از انجام است.
+        </div>
         <div id="listsList" class="item-list"></div>
       </section>
     </section>
 
     <section id="screen-settings" class="screen stack">
       <section class="card stack">
-        <div class="section-head">
-          <div>
-            <h2>تنظیمات</h2>
-            <div class="meta-line">لوکال و بدون سرور</div>
-          </div>
-        </div>
-
-        <div class="setting-row">
-          <div>
-            <strong>تم</strong>
-            <div class="tiny">روشن، شب یا پیروی از سیستم</div>
-          </div>
-          <select id="themeSelect" class="btn btn-ghost btn-small">
-            <option value="system">سیستم</option>
-            <option value="light">روشن</option>
-            <option value="dark">شب</option>
-          </select>
+        <div class="section-title">
+          <h2>تنظیمات</h2>
+          <small>لوکال، بدون سرور</small>
         </div>
 
         <div class="setting-row">
           <div>
             <strong>نوتیفیکیشن داخل‌مرورگر</strong>
-            <div class="tiny">فقط هنگام باز بودن اپ تضمینی است.</div>
+            <div class="tiny">فقط هنگام باز بودن اپ تضمینی است. برای Push واقعی پس‌زمینه، نسخه سروردار لازم است.</div>
           </div>
           <button id="notifBtn" class="btn btn-small btn-secondary">فعال‌سازی</button>
         </div>
 
         <div class="setting-row">
           <div>
-            <strong>حداکثر لغت در هر جلسه</strong>
+            <strong>تعداد پیشنهادی لغات در هر جلسه</strong>
             <div class="tiny">برای فشار ذهنی کمتر، جلسه را کوتاه نگه دار.</div>
           </div>
           <select id="dailyWordLimit" class="btn btn-ghost btn-small">
@@ -752,8 +563,8 @@ abandon رها کردن
 
         <div class="setting-row">
           <div>
-            <strong>حداکثر شماره در هر جلسه</strong>
-            <div class="tiny">برای شماره‌ها تعداد کمتر بهتر است.</div>
+            <strong>تعداد پیشنهادی شماره‌ها در هر جلسه</strong>
+            <div class="tiny">شماره‌ها به خاطر بار شناختی بالاتر، بهتر است کمتر باشند.</div>
           </div>
           <select id="dailyPhoneLimit" class="btn btn-ghost btn-small">
             <option value="3">3</option>
@@ -765,15 +576,15 @@ abandon رها کردن
         <div class="setting-row">
           <div>
             <strong>خروجی پشتیبان</strong>
-            <div class="tiny">فایل JSON برای نگهداری داده‌ها</div>
+            <div class="tiny">بهتر است هر چند وقت یک بار فایل JSON بگیری.</div>
           </div>
           <button id="exportBtn" class="btn btn-small btn-secondary">خروجی</button>
         </div>
 
         <div class="setting-row">
           <div>
-            <strong>ورودی پشتیبان</strong>
-            <div class="tiny">بازگردانی از فایل JSON</div>
+            <strong>ورود پشتیبان</strong>
+            <div class="tiny">فایل JSON قبلی را برگردان.</div>
           </div>
           <div class="row">
             <input id="importInput" type="file" accept="application/json" class="hidden" />
@@ -783,10 +594,18 @@ abandon رها کردن
 
         <div class="setting-row">
           <div>
-            <strong>پاک‌کردن همه داده‌ها</strong>
-            <div class="tiny">این کار برگشت‌پذیر نیست.</div>
+            <strong>نصب روی آیفون</strong>
+            <div class="tiny">در Safari روی Share بزن و Add to Home Screen را انتخاب کن.</div>
           </div>
-          <button id="wipeBtn" class="btn btn-small btn-danger">پاک‌کردن</button>
+          <span class="badge primary">PWA</span>
+        </div>
+
+        <div class="setting-row">
+          <div>
+            <strong>پاک‌کردن همه داده‌ها</strong>
+            <div class="tiny">این کار قابل بازگشت نیست.</div>
+          </div>
+          <button id="wipeBtn" class="btn btn-small btn-danger">حذف همه</button>
         </div>
       </section>
     </section>
@@ -794,11 +613,11 @@ abandon رها کردن
 
   <nav class="nav">
     <div class="nav-inner">
-      <button class="nav-btn active" data-screen="home"><span class="emoji">🏠</span><span>خانه</span></button>
-      <button class="nav-btn" data-screen="words"><span class="emoji">🔤</span><span>لغات</span></button>
-      <button class="nav-btn" data-screen="phones"><span class="emoji">📞</span><span>شماره‌ها</span></button>
-      <button class="nav-btn" data-screen="lists"><span class="emoji">📝</span><span>لیست‌ها</span></button>
-      <button class="nav-btn" data-screen="settings"><span class="emoji">⚙️</span><span>تنظیمات</span></button>
+      <button class="nav-btn active" data-screen="home">خانه</button>
+      <button class="nav-btn" data-screen="words">لغات</button>
+      <button class="nav-btn" data-screen="phones">شماره‌ها</button>
+      <button class="nav-btn" data-screen="lists">لیست‌ها</button>
+      <button class="nav-btn" data-screen="settings">تنظیمات</button>
     </div>
   </nav>
 
@@ -814,14 +633,13 @@ abandon رها کردن
   </div>
 
   <script>
-    const STORAGE_KEY = "yadsepar.pwa.v2";
+    const STORAGE_KEY = "yadsepar.pwa.v3";
     const DEFAULT_STATE = {
-      version: 2,
+      version: 3,
       settings: {
         dailyWordLimit: 7,
         dailyPhoneLimit: 5,
-        notificationsEnabled: false,
-        theme: "system"
+        notificationsEnabled: false
       },
       words: [],
       phones: [],
@@ -829,13 +647,26 @@ abandon رها کردن
       meta: {
         lastNotifiedAt: 0,
         lastNotificationSignature: "",
-        installTipShown: false
+        bundledDataVersion: 0
       }
     };
 
     let state = loadState();
     let selectedType = "auto";
     let reviewSession = null;
+
+    const PRESET_PHONES = [
+      { label: "حسنی بستنی", numberDigits: "09309204231" },
+      { label: "مددی", numberDigits: "09399292186" },
+      { label: "حجت ساعدی", numberDigits: "09152058133" },
+      { label: "سمباد", numberDigits: "09159144147" },
+      { label: "پیشاهنگ", numberDigits: "09153770557" },
+      { label: "حسنی تیگو", numberDigits: "09155138868" },
+      { label: "حمید زینلی", numberDigits: "09151141438" },
+      { label: "امیرحسین حامدی برقکار ماشین", numberDigits: "09374378011" },
+      { label: "محمد حسن آفتابی", numberDigits: "09154016452" }
+    ];
+
 
     const ui = {
       quickInput: document.getElementById("quickInput"),
@@ -848,12 +679,6 @@ abandon رها کردن
       dueWordsCount: document.getElementById("dueWordsCount"),
       duePhonesCount: document.getElementById("duePhonesCount"),
       dueListsCount: document.getElementById("dueListsCount"),
-      wordsRing: document.getElementById("wordsRing"),
-      phonesRing: document.getElementById("phonesRing"),
-      listsRing: document.getElementById("listsRing"),
-      wordsRingSub: document.getElementById("wordsRingSub"),
-      phonesRingSub: document.getElementById("phonesRingSub"),
-      listsRingSub: document.getElementById("listsRingSub"),
       masteredWordsCount: document.getElementById("masteredWordsCount"),
       knownPhonesCount: document.getElementById("knownPhonesCount"),
       completedListsCount: document.getElementById("completedListsCount"),
@@ -867,15 +692,7 @@ abandon رها کردن
       reviewBody: document.getElementById("reviewBody"),
       reviewTitle: document.getElementById("reviewTitle"),
       reviewProgress: document.getElementById("reviewProgress"),
-      homeRecommendations: document.getElementById("homeRecommendations"),
-      startWordReviewBtn: document.getElementById("startWordReviewBtn"),
-      startPhoneReviewBtn: document.getElementById("startPhoneReviewBtn"),
-      focusListsBtn: document.getElementById("focusListsBtn"),
-      wordActionLabel: document.getElementById("wordActionLabel"),
-      phoneActionLabel: document.getElementById("phoneActionLabel"),
-      listActionLabel: document.getElementById("listActionLabel"),
-      themeSelect: document.getElementById("themeSelect"),
-      themeToggleBtn: document.getElementById("themeToggleBtn")
+      homeRecommendations: document.getElementById("homeRecommendations")
     };
 
     init();
@@ -883,16 +700,11 @@ abandon رها کردن
     function init() {
       bindEvents();
       hydrateSettingsUI();
-      applyThemePreference();
+      ensureBundledData();
       registerServiceWorker();
       renderAll();
       scheduleRuntimeReminderCheck();
       maybeShowInstallTip();
-      updateQuickHint();
-    }
-
-    function cloneDefault() {
-      return JSON.parse(JSON.stringify(DEFAULT_STATE));
     }
 
     function bindEvents() {
@@ -902,10 +714,6 @@ abandon رها کردن
           document.querySelectorAll("#typeChips .chip").forEach(el => el.classList.toggle("active", el === chip));
           updateQuickHint();
         });
-      });
-
-      document.querySelectorAll(".info-toggle").forEach(button => {
-        button.addEventListener("click", () => toggleInfo(button.dataset.target, button));
       });
 
       ui.quickInput.addEventListener("input", updateQuickHint);
@@ -919,11 +727,11 @@ abandon رها کردن
         btn.addEventListener("click", () => showScreen(btn.dataset.screen));
       });
 
-      ui.startWordReviewBtn.addEventListener("click", () => startReview("word"));
-      ui.startPhoneReviewBtn.addEventListener("click", () => startReview("phone"));
-      ui.focusListsBtn.addEventListener("click", () => showScreen("lists"));
+      document.getElementById("startWordReviewBtn").addEventListener("click", () => startReview("word"));
+      document.getElementById("startPhoneReviewBtn").addEventListener("click", () => startReview("phone"));
+      document.getElementById("focusListsBtn").addEventListener("click", () => showScreen("lists"));
       document.getElementById("closeReviewBtn").addEventListener("click", closeReview);
-      ui.reviewOverlay.addEventListener("click", event => {
+      ui.reviewOverlay.addEventListener("click", (event) => {
         if (event.target === ui.reviewOverlay) closeReview();
       });
 
@@ -938,36 +746,73 @@ abandon رها کردن
         persist();
         renderAll();
       });
-      ui.themeSelect.addEventListener("change", () => {
-        state.settings.theme = ui.themeSelect.value;
-        persist();
-        applyThemePreference();
-      });
-      ui.themeToggleBtn.addEventListener("click", cycleTheme);
-      window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => {
-        if ((state.settings.theme || "system") === "system") applyThemePreference();
-      });
 
       document.getElementById("exportBtn").addEventListener("click", exportData);
       document.getElementById("importBtn").addEventListener("click", () => document.getElementById("importInput").click());
       document.getElementById("importInput").addEventListener("change", importData);
       document.getElementById("wipeBtn").addEventListener("click", wipeAll);
+
+      updateQuickHint();
+    }
+
+    function normalizeSeedLabel(text) {
+      return String(text).replace(/\s+/g, " ").trim();
+    }
+
+    function makePresetPhoneItem(entry) {
+      return {
+        id: uid("phone"),
+        kind: "phone",
+        label: entry.label,
+        numberDigits: entry.numberDigits,
+        prettyNumber: chunkPhone(entry.numberDigits).join(" "),
+        createdAt: now(),
+        updatedAt: now(),
+        schedule: {
+          stage: 0,
+          ease: 2.15,
+          lapses: 0,
+          reps: 0,
+          dueAt: now(),
+          lastReviewedAt: null,
+          lastRating: null
+        }
+      };
+    }
+
+    function ensureBundledData() {
+      let changed = false;
+      const existing = new Set(
+        state.phones.map(item => `${normalizeSeedLabel(item.label)}|${item.numberDigits}`)
+      );
+
+      PRESET_PHONES.forEach(entry => {
+        const key = `${normalizeSeedLabel(entry.label)}|${entry.numberDigits}`;
+        if (existing.has(key)) return;
+        state.phones.push(makePresetPhoneItem(entry));
+        existing.add(key);
+        changed = true;
+      });
+
+      state.meta.bundledDataVersion = 1;
+
+      if (changed) persist();
     }
 
     function loadState() {
       try {
-        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("yadsepar.pwa.v1");
-        if (!raw) return cloneDefault();
+        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("yadsepar.pwa.v2") || localStorage.getItem("yadsepar.pwa.v1");
+        if (!raw) return structuredClone(DEFAULT_STATE);
         const parsed = JSON.parse(raw);
         return {
-          ...cloneDefault(),
+          ...structuredClone(DEFAULT_STATE),
           ...parsed,
           settings: { ...DEFAULT_STATE.settings, ...(parsed.settings || {}) },
           meta: { ...DEFAULT_STATE.meta, ...(parsed.meta || {}) }
         };
       } catch (error) {
         console.error(error);
-        return cloneDefault();
+        return structuredClone(DEFAULT_STATE);
       }
     }
 
@@ -978,9 +823,7 @@ abandon رها کردن
     function hydrateSettingsUI() {
       ui.dailyWordLimit.value = String(state.settings.dailyWordLimit || 7);
       ui.dailyPhoneLimit.value = String(state.settings.dailyPhoneLimit || 5);
-      ui.themeSelect.value = state.settings.theme || "system";
       updateNotificationButton();
-      updateThemeButton();
     }
 
     function showScreen(screenName) {
@@ -989,64 +832,46 @@ abandon رها کردن
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    function toggleInfo(targetId, button) {
-      const target = document.getElementById(targetId);
-      if (!target) return;
-      const open = target.classList.toggle("open");
-      button.textContent = open ? "×" : "i";
-      button.setAttribute("aria-expanded", String(open));
-    }
-
-    function cycleTheme() {
-      const order = ["system", "dark", "light"];
-      const current = state.settings.theme || "system";
-      const next = order[(order.indexOf(current) + 1) % order.length];
-      state.settings.theme = next;
-      ui.themeSelect.value = next;
-      persist();
-      applyThemePreference();
-      toast(`تم: ${themeLabel(next)}`);
-    }
-
-    function themeLabel(value) {
-      return value === "dark" ? "شب" : value === "light" ? "روشن" : "سیستم";
-    }
-
-    function getResolvedTheme() {
-      const preference = state.settings.theme || "system";
-      if (preference === "dark" || preference === "light") return preference;
-      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    }
-
-    function applyThemePreference() {
-      const theme = getResolvedTheme();
-      document.body.dataset.theme = theme;
-      const themeColor = theme === "dark" ? "#09111f" : "#f5f7fb";
-      document.querySelector('meta[name="theme-color"]').setAttribute("content", themeColor);
-      updateThemeButton();
-    }
-
-    function updateThemeButton() {
-      const preference = state.settings.theme || "system";
-      ui.themeToggleBtn.textContent = preference === "dark" ? "🌙" : preference === "light" ? "☀️" : "🌓";
-      ui.themeToggleBtn.title = `تم: ${themeLabel(preference)}`;
-    }
-
     function updateQuickHint() {
       const text = ui.quickInput.value.trim();
       if (!text) {
-        ui.quickHint.textContent = "هوشمند: —";
+        ui.quickHint.textContent = "تشخیص خودکار: —";
+        return;
+      }
+      const kind = selectedType === "auto" ? detectKind(text) : selectedType;
+      const label = kind === "word" ? "لغت" : kind === "phone" ? "شماره" : "لیست";
+      ui.quickHint.textContent = `تشخیص خودکار: ${label}`;
+    }
+
+    function onSaveQuick() {
+      const raw = ui.quickInput.value.trim();
+      if (!raw) {
+        toast("اول یک ورودی بنویس.");
         return;
       }
 
-      if (selectedType !== "auto") {
-        const label = selectedType === "word" ? "لغت" : selectedType === "phone" ? "شماره" : "لیست";
-        ui.quickHint.textContent = `حالت دستی: ${label}`;
+      const kind = selectedType === "auto" ? detectKind(raw) : selectedType;
+      let created = 0;
+
+      if (kind === "word") created = createWordsFromQuickInput(raw);
+      if (kind === "phone") created = createPhonesFromQuickInput(raw);
+      if (kind === "list") created = createListFromQuickInput(raw);
+
+      if (!created) {
+        toast("ورودی قابل استفاده‌ای پیدا نشد.");
         return;
       }
 
-      const preview = previewSmartInput(text);
-      ui.quickHint.textContent = `هوشمند: ${preview.summary}`;
+      ui.quickInput.value = "";
+      persist();
+      renderAll();
+      toast(`${created} مورد ذخیره شد.`);
+    }
+
+    function normalizeDigits(text) {
+      const fa = "۰۱۲۳۴۵۶۷۸۹";
+      const ar = "٠١٢٣٤٥٦٧٨٩";
+      return String(text).replace(/[۰-۹]/g, ch => String(fa.indexOf(ch))).replace(/[٠-٩]/g, ch => String(ar.indexOf(ch)));
     }
 
     function now() {
@@ -1057,251 +882,33 @@ abandon رها کردن
       return `${prefix}_${Math.random().toString(36).slice(2, 9)}${Date.now().toString(36).slice(-4)}`;
     }
 
-    function normalizeDigits(text) {
-      const fa = "۰۱۲۳۴۵۶۷۸۹";
-      const ar = "٠١٢٣٤٥٦٧٨٩";
-      return String(text).replace(/[۰-۹]/g, ch => String(fa.indexOf(ch))).replace(/[٠-٩]/g, ch => String(ar.indexOf(ch)));
+    function detectKind(rawText) {
+      const text = normalizeDigits(rawText).trim();
+      const digitsOnly = text.replace(/\D/g, "");
+      const lines = text.split(/\n+/).map(line => line.trim()).filter(Boolean);
+      const hasLatin = /[A-Za-z]/.test(text);
+      const hasDelimiterList = /[،,]/.test(text) || lines.length > 1;
+      const hasPhonePattern = /(?:\+?\d[\d\s\-()]{6,}\d)/.test(text);
+
+      if (hasPhonePattern && digitsOnly.length >= 7 && digitsOnly.length <= 15) return "phone";
+      if (hasDelimiterList && !looksLikeWordBatch(text)) return "list";
+      if (hasLatin) return "word";
+      if (lines.length > 1 || /[:：]/.test(text)) return "list";
+      return "list";
     }
 
-    function normalizeText(text) {
-      return normalizeDigits(text)
-        .replace(/[‐‑–—]/g, "-")
-        .replace(/[\u200c\u200f]/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
-    }
-
-    function splitBlocks(raw) {
-      return raw
-        .replace(/\r/g, "")
-        .split(/\n\s*\n+/)
-        .map(block => block.trim())
-        .filter(Boolean);
-    }
-
-    function splitLines(raw) {
-      return raw
-        .replace(/\r/g, "")
-        .split(/\n+/)
-        .map(line => line.trim())
-        .filter(Boolean);
-    }
-
-    function countLatin(text) {
-      return (text.match(/[A-Za-z]/g) || []).length;
-    }
-
-    function countPersian(text) {
-      return (text.match(/[\u0600-\u06FF]/g) || []).length;
-    }
-
-    function looksLikeWordPattern(text) {
-      const normalized = normalizeText(text);
-      const hasLatin = /[A-Za-z]/.test(normalized);
-      const hasPersian = /[\u0600-\u06FF]/.test(normalized);
-      const hasSeparator = /(?:=|:|\||\(|\)|\s-\s)/.test(normalized);
-      return (hasLatin && hasPersian) || (hasLatin && hasSeparator);
-    }
-
-    function looksLikePhone(text) {
-      const normalized = normalizeDigits(text);
-      const numberMatch = normalized.match(/(?:\+?\d[\d\s()\-]{6,}\d)/);
-      if (!numberMatch) return false;
-      const digits = numberMatch[0].replace(/\D/g, "");
-      return digits.length >= 7 && digits.length <= 15;
-    }
-
-    function extractListItemsFromLine(text) {
-      const normalized = text
-        .replace(/[•·▪▫◦●○]/g, ",")
-        .replace(/[؛;]/g, ",")
-        .replace(/\s+[\-–—]\s+/g, ",")
-        .trim();
-      const stripped = normalized.includes(":") ? normalized.split(/[:：]/).slice(1).join(":").trim() : normalized;
-      return stripped.split(/[،,]/).map(item => item.trim()).filter(Boolean);
-    }
-
-    function looksLikeStandaloneListItem(line) {
-      const text = normalizeText(line);
-      if (!text) return false;
-      if (looksLikePhone(text) || looksLikeWordPattern(text)) return false;
-      if (/^[\-•·▪▫◦*]/.test(line.trim())) return true;
-      if (extractListItemsFromLine(text).length >= 2) return true;
-      return text.split(" ").length <= 6;
-    }
-
-    function isPotentialListTitle(line) {
-      const text = normalizeText(line);
-      if (!text) return false;
-      if (looksLikePhone(text) || looksLikeWordPattern(text)) return false;
-      if (/[:：]$/.test(text)) return true;
-      return text.length <= 24 && !/[،,]/.test(text);
-    }
-
-    function analyzeLine(line) {
-      const text = normalizeText(line);
-      const hasLatin = countLatin(text) > 0;
-      const hasPersian = countPersian(text) > 0;
-      const isPhone = looksLikePhone(text);
-      const listItems = extractListItemsFromLine(text);
-
-      if (isPhone) return { kind: "phone", confidence: 0.98 };
-      if ((hasLatin && hasPersian) || looksLikeWordPattern(text)) return { kind: "word", confidence: 0.92 };
-      if (listItems.length >= 2 || /^[\-•·▪▫◦*]/.test(line.trim())) return { kind: "list", confidence: 0.88 };
-      if (hasLatin && text.split(" ").length <= 4) return { kind: "word", confidence: 0.72 };
-      return { kind: "list", confidence: 0.56 };
-    }
-
-    function previewSmartInput(raw) {
-      const blocks = splitBlocks(raw);
-      const counts = { word: 0, phone: 0, list: 0 };
-
-      blocks.forEach(block => {
-        const prediction = predictBlockKinds(block);
-        counts.word += prediction.word;
-        counts.phone += prediction.phone;
-        counts.list += prediction.list;
-      });
-
-      const parts = [];
-      if (counts.word) parts.push(`${counts.word} لغت`);
-      if (counts.phone) parts.push(`${counts.phone} شماره`);
-      if (counts.list) parts.push(`${counts.list} لیست`);
-      return { counts, summary: parts.join(" + ") || "نامشخص" };
-    }
-
-    function predictBlockKinds(block) {
-      const lines = splitLines(block);
-      const counts = { word: 0, phone: 0, list: 0 };
-      if (!lines.length) return counts;
-
-      if (shouldTreatBlockAsSingleList(lines)) {
-        counts.list += 1;
-        return counts;
-      }
-
-      for (let index = 0; index < lines.length; index += 1) {
-        if (isPotentialListTitle(lines[index]) && index < lines.length - 1 && followingLinesLookLikeList(lines.slice(index + 1))) {
-          let end = index + 1;
-          while (end < lines.length && looksLikeStandaloneListItem(lines[end])) end += 1;
-          counts.list += 1;
-          index = end - 1;
-          continue;
-        }
-        const kind = analyzeLine(lines[index]).kind;
-        counts[kind] += 1;
-      }
-
-      return counts;
-    }
-
-    function shouldTreatBlockAsSingleList(lines) {
-      if (lines.length === 1) {
-        const only = lines[0];
-        return extractListItemsFromLine(only).length >= 2 && !looksLikeWordPattern(only) && !looksLikePhone(only);
-      }
-
-      const itemishCount = lines.filter(looksLikeStandaloneListItem).length;
-      const nonWordPhoneCount = lines.filter(line => !looksLikePhone(line) && !looksLikeWordPattern(line)).length;
-      const hasListTitle = isPotentialListTitle(lines[0]) && lines.length > 1;
-
-      return hasListTitle || (itemishCount === lines.length) || (nonWordPhoneCount === lines.length && lines.length >= 2);
-    }
-
-    function followingLinesLookLikeList(lines) {
+    function looksLikeWordBatch(text) {
+      const lines = text.split(/\n+/).map(line => line.trim()).filter(Boolean);
       if (!lines.length) return false;
-      const sample = lines.slice(0, 6);
-      return sample.every(looksLikeStandaloneListItem);
-    }
-
-    function onSaveQuick() {
-      const raw = ui.quickInput.value.trim();
-      if (!raw) {
-        toast("اول یک ورودی بنویس.");
-        return;
-      }
-
-      let result = { word: 0, phone: 0, list: 0, total: 0 };
-
-      if (selectedType === "auto") {
-        result = createFromSmartInput(raw);
-      } else if (selectedType === "word") {
-        const count = createWordsFromQuickInput(raw);
-        result = { word: count, phone: 0, list: 0, total: count };
-      } else if (selectedType === "phone") {
-        const count = createPhonesFromQuickInput(raw);
-        result = { word: 0, phone: count, list: 0, total: count };
-      } else {
-        const count = createListFromQuickInput(raw);
-        result = { word: 0, phone: 0, list: count, total: count };
-      }
-
-      if (!result.total) {
-        toast("ورودی قابل استفاده‌ای پیدا نشد.");
-        return;
-      }
-
-      ui.quickInput.value = "";
-      persist();
-      renderAll();
-      const summary = [
-        result.word ? `${result.word} لغت` : "",
-        result.phone ? `${result.phone} شماره` : "",
-        result.list ? `${result.list} لیست` : ""
-      ].filter(Boolean).join(" + ");
-      toast(`${summary} ذخیره شد.`);
-      updateQuickHint();
-    }
-
-    function createFromSmartInput(raw) {
-      const blocks = splitBlocks(raw);
-      const counts = { word: 0, phone: 0, list: 0, total: 0 };
-
-      blocks.forEach(block => {
-        const created = createFromSmartBlock(block);
-        counts.word += created.word;
-        counts.phone += created.phone;
-        counts.list += created.list;
-      });
-
-      counts.total = counts.word + counts.phone + counts.list;
-      return counts;
-    }
-
-    function createFromSmartBlock(block) {
-      const lines = splitLines(block);
-      const counts = { word: 0, phone: 0, list: 0 };
-      if (!lines.length) return counts;
-
-      if (shouldTreatBlockAsSingleList(lines)) {
-        counts.list += createListFromQuickInput(block);
-        return counts;
-      }
-
-      for (let index = 0; index < lines.length; index += 1) {
-        if (isPotentialListTitle(lines[index]) && index < lines.length - 1 && followingLinesLookLikeList(lines.slice(index + 1))) {
-          let end = index + 1;
-          while (end < lines.length && looksLikeStandaloneListItem(lines[end])) end += 1;
-          counts.list += createListFromQuickInput(lines.slice(index, end).join("\n"));
-          index = end - 1;
-          continue;
-        }
-
-        const kind = analyzeLine(lines[index]).kind;
-        if (kind === "word") counts.word += createWordsFromQuickInput(lines[index]);
-        if (kind === "phone") counts.phone += createPhonesFromQuickInput(lines[index]);
-        if (kind === "list") counts.list += createListFromQuickInput(lines[index]);
-      }
-
-      return counts;
+      return lines.every(line => /[A-Za-z]/.test(line) && /(?:=|:| - | – | — )/.test(line));
     }
 
     function createWordsFromQuickInput(raw) {
-      const lines = splitLines(raw);
-      const sourceLines = lines.length ? lines : [raw.trim()];
+      const lines = raw.split(/\n+/).map(line => line.trim()).filter(Boolean);
+      const wordLines = lines.length ? lines : [raw.trim()];
       let count = 0;
 
-      sourceLines.forEach(line => {
+      wordLines.forEach(line => {
         const parsed = parseWordLine(line);
         if (!parsed.front) return;
         state.words.unshift({
@@ -1331,40 +938,27 @@ abandon رها کردن
     function parseWordLine(line) {
       const normalized = line.trim();
       const [main, example = ""] = normalized.split("|").map(part => part.trim());
-      const separators = [" = ", "=", " : ", ":", " - ", " – ", " — ", " → ", " => "];
+      const separators = [" = ", "=", " : ", ":", " - ", " – ", " — "];
       let front = main;
       let back = "";
 
       for (const sep of separators) {
         if (main.includes(sep)) {
-          const parts = main.split(sep).map(part => part.trim()).filter(Boolean);
-          if (parts.length >= 2) {
-            const englishFirst = /[A-Za-z]/.test(parts[0]);
-            front = englishFirst ? parts[0] : parts[1] || parts[0];
-            back = englishFirst ? parts.slice(1).join(" ") : parts[0];
-            return { front, back, example };
-          }
+          const parts = main.split(sep);
+          front = (parts.shift() || "").trim();
+          back = parts.join(sep).trim();
+          break;
         }
       }
 
-      const englishMatches = main.match(/[A-Za-z][A-Za-z'’\-\s]*/g) || [];
-      if (englishMatches.length) {
-        const englishText = englishMatches.join(" ").replace(/\s+/g, " ").trim();
-        const persianText = main.replace(/[A-Za-z'’\-]/g, " ").replace(/\s+/g, " ").trim();
-        front = englishText || main;
-        back = persianText;
-        return { front, back, example };
-      }
-
-      return { front: main, back, example };
+      return { front, back, example };
     }
 
     function createPhonesFromQuickInput(raw) {
-      const lines = splitLines(raw);
-      const sourceLines = lines.length ? lines : [raw.trim()];
+      const lines = raw.split(/\n+/).map(line => line.trim()).filter(Boolean);
       let count = 0;
 
-      sourceLines.forEach(line => {
+      lines.forEach(line => {
         const parsed = parsePhoneLine(line);
         if (!parsed.numberDigits) return;
         state.phones.unshift({
@@ -1393,15 +987,11 @@ abandon رها کردن
 
     function parsePhoneLine(line) {
       const normalized = normalizeDigits(line);
-      const numberMatch = normalized.match(/(?:\+?\d[\d\s()\-]{6,}\d)/);
+      const numberMatch = normalized.match(/\+?\d[\d\s\-()]{6,}\d/);
       if (!numberMatch) return { label: "", numberDigits: "" };
       const numberRaw = numberMatch[0];
       const numberDigits = numberRaw.replace(/\D/g, "");
-      const label = normalized
-        .replace(numberRaw, " ")
-        .replace(/[:：=\-]/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
+      const label = normalized.replace(numberRaw, "").trim();
       return { label, numberDigits };
     }
 
@@ -1411,12 +1001,12 @@ abandon رها کردن
       if (digits.length === 11) return [digits.slice(0, 4), digits.slice(4, 7), digits.slice(7)];
       if (digits.length === 12) return [digits.slice(0, 3), digits.slice(3, 6), digits.slice(6, 9), digits.slice(9)];
       const chunks = [];
-      let index = 0;
-      while (index < digits.length) {
-        const remaining = digits.length - index;
-        const size = remaining > 8 ? 3 : remaining === 8 ? 4 : remaining > 4 ? 3 : remaining;
-        chunks.push(digits.slice(index, index + size));
-        index += size;
+      let i = 0;
+      while (i < digits.length) {
+        const left = digits.length - i;
+        const size = left > 8 ? 3 : left === 8 ? 4 : left > 4 ? 3 : left;
+        chunks.push(digits.slice(i, i + size));
+        i += size;
       }
       return chunks;
     }
@@ -1445,60 +1035,27 @@ abandon رها کردن
 
     function parseListInput(raw) {
       const normalized = raw.trim();
-      const lines = splitLines(normalized);
+      const lines = normalized.split(/\n+/).map(line => line.trim()).filter(Boolean);
 
-      if (lines.length === 1) {
-        const line = lines[0];
-        if (/:|：/.test(line)) {
-          const parts = line.split(/[:：]/);
-          const title = (parts.shift() || "").trim() || "لیست سریع";
-          const items = parts.join(":").split(/[،,؛;]/).map(item => item.trim()).filter(Boolean);
-          return {
-            title,
-            items,
-            cue: `وقتی به ${title} رسیدم، قبل از عمل این لیست را ذهنی مرور می‌کنم.`,
-            dueAt: defaultListDue()
-          };
-        }
-
-        const items = extractListItemsFromLine(line);
+      if (lines.length === 1 && /[:：]/.test(normalized)) {
+        const [titlePart, itemsPart] = normalized.split(/[:：]/);
+        const items = itemsPart.split(/[،,]/).map(item => item.trim()).filter(Boolean);
         return {
-          title: inferListTitle(items.length > 1 ? items : lines),
-          items: items.length > 1 ? items : [line],
-          cue: "قبل از انجام، یک بار آیتم‌ها را از ذهن بازسازی می‌کنم.",
+          title: titlePart.trim() || "لیست جدید",
+          items,
+          cue: `وقتی به ${titlePart.trim() || "موقعیت مربوط"} رسیدم، این لیست را مرور می‌کنم.`,
           dueAt: defaultListDue()
         };
       }
 
-      let title = "";
-      let itemLines = [...lines];
-
-      if (isPotentialListTitle(lines[0])) {
-        title = lines[0].replace(/[:：]$/, "").trim();
-        itemLines = lines.slice(1);
-      }
-
-      const items = itemLines.flatMap(line => {
-        if (/^[\-•·▪▫◦*]/.test(line)) return [line.replace(/^[\-•·▪▫◦*]\s*/, "").trim()].filter(Boolean);
-        const separated = line.split(/[،,؛;]/).map(item => item.trim()).filter(Boolean);
-        return separated.length ? separated : [line.trim()];
-      }).filter(Boolean);
-
-      const finalTitle = title || inferListTitle(itemLines);
+      const title = lines[0].length <= 24 && lines.length > 1 ? lines[0] : inferListTitle(lines);
+      const items = lines[0] === title ? lines.slice(1) : lines;
       return {
-        title: finalTitle,
-        items,
-        cue: `وقتی زمان ${finalTitle} رسید، اول از ذهنم مرور می‌کنم بعد لیست را باز می‌کنم.`,
+        title: title || "لیست جدید",
+        items: items.flatMap(line => line.split(/[،,]/).map(item => item.trim())).filter(Boolean),
+        cue: `وقتی زمان ${title || "این کار"} رسید، قبل از عمل یک بار ذهنی مرور می‌کنم.`,
         dueAt: defaultListDue()
       };
-    }
-
-    function inferListTitle(linesOrItems) {
-      const list = Array.isArray(linesOrItems) ? linesOrItems : [];
-      if (!list.length) return "لیست سریع";
-      const first = list[0];
-      if (list.length >= 2) return first.length <= 22 ? first : "لیست سریع";
-      return first.length <= 20 ? first : "لیست سریع";
     }
 
     function defaultListDue() {
@@ -1513,6 +1070,13 @@ abandon رها کردن
       return date.getTime();
     }
 
+    function inferListTitle(lines) {
+      if (!lines.length) return "لیست جدید";
+      const first = lines[0];
+      if (first.split(/[،,]/).length > 1) return "لیست سریع";
+      return first.length > 24 ? "لیست سریع" : first;
+    }
+
     function dueItems() {
       const ts = now();
       const dueWords = state.words.filter(item => item.schedule.dueAt <= ts);
@@ -1525,47 +1089,19 @@ abandon رها کردن
       return items.filter(item => item.schedule.stage >= 5).length;
     }
 
-    function percent(part, total) {
-      if (!total) return 0;
-      return Math.round((part / total) * 100);
-    }
-
-    function setRing(node, value) {
-      node.style.setProperty("--p", `${Math.max(0, Math.min(100, value))}%`);
-    }
-
     function renderAll() {
       const { dueWords, duePhones, dueLists } = dueItems();
-      const masteredWords = masteredCount(state.words);
-      const knownPhones = masteredCount(state.phones);
-      const completedLists = state.lists.filter(item => item.done).length;
-      const activeLists = state.lists.filter(item => !item.done).length;
-
       ui.dueWordsCount.textContent = String(dueWords.length);
       ui.duePhonesCount.textContent = String(duePhones.length);
       ui.dueListsCount.textContent = String(dueLists.length);
 
-      ui.masteredWordsCount.textContent = String(masteredWords);
-      ui.knownPhonesCount.textContent = String(knownPhones);
-      ui.completedListsCount.textContent = String(completedLists);
-
-      const wordsPct = percent(masteredWords, state.words.length);
-      const phonesPct = percent(knownPhones, state.phones.length);
-      const listsPct = percent(completedLists, state.lists.length);
-      setRing(ui.wordsRing, wordsPct);
-      setRing(ui.phonesRing, phonesPct);
-      setRing(ui.listsRing, listsPct);
-      ui.wordsRingSub.textContent = `${wordsPct}% پایدار`;
-      ui.phonesRingSub.textContent = `${phonesPct}% پایدار`;
-      ui.listsRingSub.textContent = `${listsPct}% انجام‌شده`;
+      ui.masteredWordsCount.textContent = String(masteredCount(state.words));
+      ui.knownPhonesCount.textContent = String(masteredCount(state.phones));
+      ui.completedListsCount.textContent = String(state.lists.filter(item => item.done).length);
 
       ui.wordsMeta.textContent = `${state.words.length} مورد`;
       ui.phonesMeta.textContent = `${state.phones.length} مورد`;
       ui.listsMeta.textContent = `${state.lists.length} مورد`;
-
-      ui.wordActionLabel.textContent = `مرور ${dueWords.length}`;
-      ui.phoneActionLabel.textContent = `مرور ${duePhones.length}`;
-      ui.listActionLabel.textContent = `لیست ${activeLists}`;
 
       renderWords();
       renderPhones();
@@ -1578,24 +1114,23 @@ abandon رها کردن
     function renderHomeRecommendations(wordDue, phoneDue, listDue) {
       const wordCap = state.settings.dailyWordLimit || 7;
       const phoneCap = state.settings.dailyPhoneLimit || 5;
-      const parts = [
-        `🔤 ${Math.min(wordCap, wordDue || wordCap)}`,
-        `📞 ${Math.min(phoneCap, phoneDue || phoneCap)}`,
-        `📝 ${Math.min(3, listDue || 3)}`
-      ];
-      ui.homeRecommendations.textContent = `پیشنهاد جلسه کوتاه: ${parts.join(" • ")}`;
+      ui.homeRecommendations.innerHTML = `
+        امروز بهتر است حداکثر <strong class="mono">${Math.min(wordCap, wordDue || wordCap)}</strong> لغت،
+        <strong class="mono">${Math.min(phoneCap, phoneDue || phoneCap)}</strong> شماره
+        و <strong class="mono">${Math.min(3, listDue || 3)}</strong> لیست را در چند نوبت کوتاه مرور کنی.
+      `;
     }
 
     function renderWords() {
       if (!state.words.length) {
-        ui.wordsList.innerHTML = '<div class="empty">هنوز لغتی ذخیره نشده.</div>';
+        ui.wordsList.innerHTML = `<div class="empty">هنوز لغتی ذخیره نشده.</div>`;
         return;
       }
 
       const sorted = [...state.words].sort((a, b) => a.schedule.dueAt - b.schedule.dueAt);
       ui.wordsList.innerHTML = sorted.map(item => {
         const due = relativeDue(item.schedule.dueAt);
-        const back = item.back ? `<div class="muted" dir="auto">${escapeHtml(item.back)}</div>` : '<div class="tiny">فعلاً بدون معنی ثبت‌شده</div>';
+        const back = item.back ? `<div class="muted" dir="auto">${escapeHtml(item.back)}</div>` : `<div class="tiny">بدون معنی ثبت‌شده</div>`;
         return `
           <article class="item-card">
             <header>
@@ -1622,7 +1157,7 @@ abandon رها کردن
 
     function renderPhones() {
       if (!state.phones.length) {
-        ui.phonesList.innerHTML = '<div class="empty">هنوز شماره‌ای ذخیره نشده.</div>';
+        ui.phonesList.innerHTML = `<div class="empty">هنوز شماره‌ای ذخیره نشده.</div>`;
         return;
       }
 
@@ -1637,7 +1172,7 @@ abandon رها کردن
             <span class="badge ${item.schedule.dueAt <= now() ? "warn" : "primary"}">${relativeDue(item.schedule.dueAt)}</span>
           </header>
           <div class="meta">
-            <span class="badge">Chunk ${chunkPhone(item.numberDigits).length}</span>
+            <span class="badge">Chunk: ${chunkPhone(item.numberDigits).length}</span>
             <span class="badge">مرحله ${item.schedule.stage}</span>
           </div>
           <div class="row">
@@ -1651,7 +1186,7 @@ abandon رها کردن
 
     function renderLists() {
       if (!state.lists.length) {
-        ui.listsList.innerHTML = '<div class="empty">هنوز لیستی ذخیره نشده.</div>';
+        ui.listsList.innerHTML = `<div class="empty">هنوز لیستی ذخیره نشده.</div>`;
         return;
       }
 
@@ -1661,7 +1196,7 @@ abandon رها کردن
       });
 
       ui.listsList.innerHTML = sorted.map(item => {
-        const progress = `${item.items.filter(entry => entry.done).length}/${item.items.length}`;
+        const progress = `${item.items.filter(x => x.done).length}/${item.items.length}`;
         const badgeClass = item.done ? "success" : (item.nextReminderAt <= now() ? "warn" : "primary");
         return `
           <article class="item-card">
@@ -1688,39 +1223,31 @@ abandon رها کردن
       }).join("");
     }
 
-    function kindPresentation(kind) {
-      if (kind === "لغت") return { icon: "🔤", label: "لغت" };
-      if (kind === "شماره") return { icon: "📞", label: "شماره" };
-      return { icon: "📝", label: "لیست" };
-    }
-
     function renderUpNext() {
       const items = [
         ...state.words.map(item => ({ kind: "لغت", title: item.front, dueAt: item.schedule.dueAt })),
         ...state.phones.map(item => ({ kind: "شماره", title: item.label, dueAt: item.schedule.dueAt })),
         ...state.lists.filter(item => !item.done).map(item => ({ kind: "لیست", title: item.title, dueAt: item.nextReminderAt }))
-      ].sort((a, b) => a.dueAt - b.dueAt).slice(0, 5);
+      ]
+      .sort((a, b) => a.dueAt - b.dueAt)
+      .slice(0, 6);
 
       if (!items.length) {
-        ui.upNext.innerHTML = '<div class="empty">فعلاً چیزی در صف نیست.</div>';
+        ui.upNext.innerHTML = `<div class="empty">هنوز چیزی برای نمایش نیست.</div>`;
         return;
       }
 
-      ui.upNext.innerHTML = items.map(item => {
-        const presentation = kindPresentation(item.kind);
-        return `
-          <div class="agenda-item">
-            <div class="agenda-left">
-              <div class="icon">${presentation.icon}</div>
-              <div>
-                <strong>${escapeHtml(item.title)}</strong>
-                <div class="tiny">${presentation.label}</div>
-              </div>
+      ui.upNext.innerHTML = items.map(item => `
+        <article class="item-card">
+          <header>
+            <div>
+              <h4>${escapeHtml(item.title)}</h4>
+              <div class="tiny">${item.kind}</div>
             </div>
             <span class="badge primary">${relativeDue(item.dueAt)}</span>
-          </div>
-        `;
-      }).join("");
+          </header>
+        </article>
+      `).join("");
     }
 
     function startReview(kind) {
@@ -1791,7 +1318,7 @@ abandon رها کردن
       if (reviewSession.kind === "word") {
         const direction = chooseWordDirection(item);
         const prompt = direction === "front-to-back" ? item.front : (item.back || item.front);
-        const answerMain = direction === "front-to-back" ? (item.back || "معنی را خودت ذهنی بگو.") : item.front;
+        const answerMain = direction === "front-to-back" ? (item.back || "معنی را خودت بلند یا ذهنی بگو.") : item.front;
         ui.reviewBody.innerHTML = `
           <div class="review-prompt">
             <div class="kind">لغت ${current} از ${total}</div>
@@ -1820,7 +1347,7 @@ abandon رها کردن
           <div class="review-prompt">
             <div class="kind">شماره ${current} از ${total}</div>
             <h3>${escapeHtml(item.label)}</h3>
-            <div class="tiny">اول شماره را chunk به chunk در ذهن بازسازی کن.</div>
+            <div class="tiny">اول شماره را به صورت chunkهای کوتاه در ذهن بازسازی کن.</div>
             <div class="summary-box ltr">${escapeHtml(masked)}</div>
           </div>
           <div class="row" style="justify-content:center">
@@ -1851,7 +1378,10 @@ abandon رها کردن
     function maskPhone(digits) {
       const chunks = chunkPhone(digits);
       if (chunks.length <= 1) return "••••";
-      return chunks.map((chunk, index) => index === 0 ? chunk : "•".repeat(chunk.length)).join(" ");
+      return chunks.map((chunk, index) => {
+        if (index === 0) return chunk;
+        return "•".repeat(chunk.length);
+      }).join(" ");
     }
 
     function revealAnswer() {
@@ -1865,7 +1395,11 @@ abandon رها کردن
       const item = reviewSession.items[reviewSession.index];
       if (!item) return;
 
-      item.schedule = nextSchedule(item.schedule, rating, reviewSession.kind);
+      if (reviewSession.kind === "word") {
+        item.schedule = nextSchedule(item.schedule, rating, "word");
+      } else {
+        item.schedule = nextSchedule(item.schedule, rating, "phone");
+      }
       item.updatedAt = now();
 
       persist();
@@ -1895,6 +1429,7 @@ abandon رها کردن
         160 * 24 * 60 * 60 * 1000,
         320 * 24 * 60 * 60 * 1000
       ];
+
       const phoneStages = [
         5 * 60 * 1000,
         30 * 60 * 1000,
@@ -1906,6 +1441,7 @@ abandon رها کردن
         60 * 24 * 60 * 60 * 1000,
         120 * 24 * 60 * 60 * 1000
       ];
+
       const plan = kind === "word" ? wordStages : phoneStages;
 
       if (rating === "again") {
@@ -1918,10 +1454,10 @@ abandon رها کردن
       }
 
       if (rating === "hard") {
-        fresh.stage = Math.max(1, fresh.stage);
+        fresh.stage = Math.max(1, fresh.stage + 0);
         fresh.ease = Math.max(1.35, fresh.ease - 0.05);
         fresh.reps += 1;
-        const interval = Math.round((plan[Math.min(fresh.stage, plan.length - 1)] || plan[plan.length - 1]) * 0.75);
+        const interval = Math.round((plan[Math.min(fresh.stage, plan.length - 1)] || plan.at(-1)) * 0.75);
         fresh.dueAt = now() + interval;
         return fresh;
       }
@@ -1930,7 +1466,7 @@ abandon رها کردن
         fresh.stage = Math.min(plan.length - 1, fresh.stage + 1);
         fresh.ease = Math.min(3.1, fresh.ease + 0.03);
         fresh.reps += 1;
-        const interval = Math.round((plan[fresh.stage] || plan[plan.length - 1]) * Math.min(fresh.ease, 2.6));
+        const interval = Math.round((plan[fresh.stage] || plan.at(-1)) * Math.min(fresh.ease, 2.6));
         fresh.dueAt = now() + interval;
         return fresh;
       }
@@ -1938,7 +1474,7 @@ abandon رها کردن
       fresh.stage = Math.min(plan.length - 1, fresh.stage + 2);
       fresh.ease = Math.min(3.25, fresh.ease + 0.08);
       fresh.reps += 1;
-      const interval = Math.round((plan[fresh.stage] || plan[plan.length - 1]) * Math.min(fresh.ease * 1.18, 3.2));
+      const interval = Math.round((plan[fresh.stage] || plan.at(-1)) * Math.min(fresh.ease * 1.18, 3.2));
       fresh.dueAt = now() + interval;
       return fresh;
     }
@@ -1964,7 +1500,9 @@ abandon رها کردن
           <div class="kind">لیست کوتاه</div>
           <h3>${escapeHtml(list.title)}</h3>
           <div class="tiny">${escapeHtml(list.cue)}</div>
-          <div class="summary-box">قبل از بازکردن، سعی کن ${list.items.length} مورد را در ذهن بازسازی کنی؛ بعد با لیست واقعی مقایسه کن.</div>
+          <div class="summary-box">
+            قبل از بازکردن، سعی کن ${list.items.length} مورد را در ذهن بازسازی کنی؛ بعد پایین را با ذهن خودت مقایسه کن.
+          </div>
         </div>
         <div class="row" style="justify-content:center">
           <button class="btn btn-primary" onclick="document.getElementById('listAnswer').classList.remove('hidden')">نمایش لیست</button>
@@ -1993,6 +1531,7 @@ abandon رها کردن
         list.remindStep = 0;
         list.nextReminderAt = Math.min(now() + intervals[0], list.dueAt);
       } else if (score === "partial") {
+        list.memoryScore = Math.max(0, list.memoryScore);
         list.remindStep = Math.min(2, list.remindStep + 1);
         list.nextReminderAt = Math.min(now() + intervals[list.remindStep], list.dueAt);
       } else {
@@ -2049,13 +1588,13 @@ abandon رها کردن
       list.updatedAt = now();
       persist();
       renderAll();
-      toast("یادآوری لیست یک ساعت عقب افتاد.");
+      toast("یک ساعت عقب افتاد.");
     }
 
     function editWord(id) {
       const item = state.words.find(entry => entry.id === id);
       if (!item) return;
-      const value = prompt("فرمت آزاد: word = معنی | مثال", `${item.front} = ${item.back || ""}${item.example ? " | " + item.example : ""}`);
+      const value = prompt("فرمت: word = معنی | مثال", `${item.front} = ${item.back || ""}${item.example ? " | " + item.example : ""}`);
       if (value === null) return;
       const parsed = parseWordLine(value);
       item.front = parsed.front || item.front;
@@ -2069,7 +1608,7 @@ abandon رها کردن
     function editPhone(id) {
       const item = state.phones.find(entry => entry.id === id);
       if (!item) return;
-      const value = prompt("فرمت آزاد: نام + شماره", `${item.label} ${item.numberDigits}`);
+      const value = prompt("فرمت: نام 09121234567", `${item.label} ${item.numberDigits}`);
       if (value === null) return;
       const parsed = parsePhoneLine(value);
       if (!parsed.numberDigits) return toast("شماره معتبر پیدا نشد.");
@@ -2088,7 +1627,7 @@ abandon رها کردن
       if (title === null) return;
       const body = prompt("هر مورد را با ویرگول یا خط جدید جدا کن", item.items.map(entry => entry.text).join("، "));
       if (body === null) return;
-      const items = body.split(/[\n،,؛;]/).map(entry => entry.trim()).filter(Boolean);
+      const items = body.split(/[,\n،]/).map(entry => entry.trim()).filter(Boolean);
       if (!items.length) return toast("لیست نباید خالی باشد.");
       item.title = title.trim() || item.title;
       item.items = items.map(text => ({ id: uid("li"), text, done: false }));
@@ -2102,9 +1641,11 @@ abandon رها کردن
     function removeItem(kind, id) {
       const confirmed = confirm("این مورد حذف شود؟");
       if (!confirmed) return;
+
       if (kind === "word") state.words = state.words.filter(item => item.id !== id);
       if (kind === "phone") state.phones = state.phones.filter(item => item.id !== id);
       if (kind === "list") state.lists = state.lists.filter(item => item.id !== id);
+
       persist();
       renderAll();
       toast("حذف شد.");
@@ -2113,6 +1654,7 @@ abandon رها کردن
     function relativeDue(timestamp) {
       const diff = timestamp - now();
       const abs = Math.abs(diff);
+
       if (abs < 60 * 1000) return diff <= 0 ? "الان" : "تا ۱ دقیقه";
       if (abs < 60 * 60 * 1000) {
         const m = Math.round(abs / (60 * 1000));
@@ -2159,18 +1701,16 @@ abandon رها کردن
           const parsed = JSON.parse(String(reader.result));
           if (!parsed || typeof parsed !== "object") throw new Error("invalid");
           state = {
-            ...cloneDefault(),
+            ...structuredClone(DEFAULT_STATE),
             ...parsed,
             settings: { ...DEFAULT_STATE.settings, ...(parsed.settings || {}) },
             meta: { ...DEFAULT_STATE.meta, ...(parsed.meta || {}) }
           };
           persist();
           hydrateSettingsUI();
-          applyThemePreference();
           renderAll();
           toast("داده‌ها وارد شدند.");
         } catch (error) {
-          console.error(error);
           toast("فایل پشتیبان معتبر نبود.");
         }
         event.target.value = "";
@@ -2181,15 +1721,15 @@ abandon رها کردن
     function wipeAll() {
       const confirmed = confirm("همه داده‌ها حذف شوند؟");
       if (!confirmed) return;
-      state = cloneDefault();
+      state = structuredClone(DEFAULT_STATE);
       persist();
       hydrateSettingsUI();
-      applyThemePreference();
       renderAll();
       toast("همه چیز پاک شد.");
     }
 
     function toast(message, actionLabel = "", onAction = null) {
+      const wrap = ui.toastWrap;
       const node = document.createElement("div");
       node.className = "toast";
       node.innerHTML = `
@@ -2199,7 +1739,7 @@ abandon رها کردن
       if (actionLabel && typeof onAction === "function") {
         node.querySelector("button").addEventListener("click", onAction);
       }
-      ui.toastWrap.appendChild(node);
+      wrap.appendChild(node);
       setTimeout(() => node.remove(), 3200);
     }
 
@@ -2222,6 +1762,7 @@ abandon رها کردن
         state.settings.notificationsEnabled = result === "granted";
         persist();
         updateNotificationButton();
+
         if (result === "granted") {
           toast("نوتیفیکیشن فعال شد.");
           checkAndNotify(true);
@@ -2240,6 +1781,7 @@ abandon رها کردن
         ui.notifBtn.disabled = true;
         return;
       }
+
       if (Notification.permission === "granted") {
         ui.notifBtn.textContent = "فعال است";
       } else if (Notification.permission === "denied") {
@@ -2296,12 +1838,11 @@ abandon رها کردن
 
     function maybeShowInstallTip() {
       const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
-      if (isStandalone || state.meta.installTipShown) return;
-      state.meta.installTipShown = true;
-      persist();
-      setTimeout(() => {
-        toast("برای تجربه بهتر در آیفون: Safari → Share → Add to Home Screen");
-      }, 1200);
+      if (!isStandalone) {
+        setTimeout(() => {
+          toast("برای تجربه بهتر در آیفون: Safari → Share → Add to Home Screen");
+        }, 1200);
+      }
     }
 
     async function registerServiceWorker() {
